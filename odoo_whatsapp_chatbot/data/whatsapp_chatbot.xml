@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="whatsapp_chatbot" model="whatsapp.chatbot">
+            <field name="title">Whatsapp Chatbot</field>
+        </record>
+        <record id="whatsapp_chatbot_action_1" model="whatsapp.ir.actions">
+            <field name="chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="name">CRM Lead</field>
+        </record>
+        <record id="whatsapp_chatbot_action_2" model="whatsapp.ir.actions">
+            <field name="chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="name">Add Agent</field>
+            <field name="binding_model_id" ref="mail.model_discuss_channel"/>
+        </record>
+
+
+        <record id="whatsapp_chatbot_script_1" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Hello</field>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template"/>
+            <field name="sequence">1</field>
+        </record>
+        <record id="whatsapp_chatbot_script_2" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Get help with a problem</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_1"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_1"/>
+            <field name="sequence">2</field>
+        </record>
+        <record id="whatsapp_chatbot_script_3" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Refrigerator</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_2"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_2"/>
+            <field name="sequence">3</field>
+        </record>
+        <record id="whatsapp_chatbot_script_4" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Double Door</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_3"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="sequence">4</field>
+        </record>
+        <record id="whatsapp_chatbot_script_10" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Single Door</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_3"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="sequence">5</field>
+        </record>
+        <record id="whatsapp_chatbot_script_5" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Water Leakage</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_4"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_4"/>
+            <field name="sequence">6</field>
+        </record>
+        <record id="whatsapp_chatbot_script_6" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">No Cooling</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_4"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_4"/>
+            <field name="sequence">7</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_7" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">action</field>
+            <field name="message">New Registration</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_1"/>
+            <field name="action_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_action_1"/>
+            <field name="sequence">8</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_8" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">action</field>
+            <field name="message">Talk to our agent</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_1"/>
+            <field name="action_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_action_2"/>
+            <field name="sequence">9</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_9" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">action</field>
+            <field name="message">Raise Issue</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_1"/>
+            <field name="action_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_action_1"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_11" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">AC</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_2"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_5"/>
+            <field name="sequence">11</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_12" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Window AC</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_11"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="sequence">12</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_13" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">SPLIT AC - NORMAL</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_11"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="sequence">13</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_14" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Washing Machine</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_2"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="sequence">14</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_15" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Fully Automatic</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_14"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="sequence">15</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_16" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Semi Automatic</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_14"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="sequence">16</field>
+        </record>
+
+        <record id="whatsapp_chatbot_script_13" model="whatsapp.chatbot.script">
+            <field name="whatsapp_chatbot_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot"/>
+            <field name="step_call_type">interactive</field>
+            <field name="message">Front Loading</field>
+            <field name="parent_id" ref="odoo_whatsapp_chatbot.whatsapp_chatbot_script_14"/>
+            <field name="template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="sequence">17</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template_ext" xml:space="preserve">
+    <t t-name="MessageListExt" t-inherit="mail.MessageList" t-inherit-mode="extension" owl="1">
+        <!-- Add o_MessageList_whatsapp Class Same as WhatsApp Design in Discuss, Chatter, Not in Chat Window/Sidebar -->
+        <xpath expr="//div[hasclass('o_MessageList')]" position="attributes">
+             <attribute name="t-att-class">{ 'o_MessageList_whatsapp': messageListView.threadViewOwner.thread.isWaMsgs, 'o-empty align-items-center justify-content-center': messageListView.threadViewOwner.messages.length === 0, 'pb-4': messageListView.threadViewOwner.messages.length !== 0 }</attribute>
+        </xpath>
+    </t>
+</templates>

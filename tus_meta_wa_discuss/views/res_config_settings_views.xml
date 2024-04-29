@@ -1,0 +1,30 @@
+<odoo>
+    <record id="res_config_settings_view_form_discuss" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.discuss</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="tus_meta_whatsapp_base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='tus_meta_whatsapp_base']/block" position="after">
+                <block title="For Chatter">
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="not_wa_msgs_btn_in_chatter" string="Not Show Send Message Button in Chatter"
+                                       class=" o_light_label"/>
+                                <field name="not_send_msgs_btn_in_chatter" class="oe_inline" widget="many2many_tags"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="not_wa_msgs_btn_in_chatter"
+                                       string="Not Show Send Whatsapp Message Button in Chatter"
+                                       clasL=" o_light_label"/>
+                                <field name="not_wa_msgs_btn_in_chatter" class="oe_inline" widget="many2many_tags"/>
+                            </div>
+                        </div>
+                    </div>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

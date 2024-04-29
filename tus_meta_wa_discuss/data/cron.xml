@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="ir_cron_scheduler_template_status" model="ir.cron">
+            <field name="name">Template Send Required</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model.get_template_send_status()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+<!--        <record id="update_state_when_change_date" model="base.automation">-->
+<!--            <field name="name">Send Template Require Set </field>-->
+<!--            <field name="model_id" ref="tus_meta_whatsapp_base.model_whatsapp_history"/>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="trigger">on_create_or_write</field>-->
+<!--            <field name="active" eval="True"/>-->
+<!--            <field name="trigger_field_ids" eval="[(6, 0, [ref('tus_meta_whatsapp_base.field_whatsapp_history__type')])]"/>-->
+<!--            <field name="filter_pre_domain">[]</field>-->
+<!--            <field name="code">action = records.get_template_required_set()</field>-->
+<!--        </record>-->
+    </data>
+</odoo>

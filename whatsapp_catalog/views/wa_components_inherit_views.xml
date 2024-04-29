@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="wa_components_inherit_form_view" model="ir.ui.view">
+        <field name="name">wa.components.inherit.form</field>
+        <field name="model">components</field>
+        <field name="inherit_id" ref="tus_meta_whatsapp_base.components_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr='//field[@name="product_retailer_id"]' position='attributes'>
+                <attribute
+                    name="invisible"
+                >(type != 'buttons' or button_type != 'CATALOG') and (type != 'interactive' or interactive_type != 'product')</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

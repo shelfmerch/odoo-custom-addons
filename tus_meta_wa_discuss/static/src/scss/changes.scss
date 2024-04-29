@@ -1,0 +1,92 @@
+.nav-item a.active{
+   color: #fff  !important;
+   background: linear-gradient(45deg, #714B67, #5e4a59) !important;
+}
+
+.functional_tab{
+   color: linear-gradient(45deg, #714B67, #5e4a59) !important;
+}
+#navbarSupportedContent ul li a{
+   color: linear-gradient(45deg, #714B67, #5e4a59) !important;
+   border: 1px solid black;
+   font-weight: bold;
+}
+
+#navbarSupportedContent>ul>li.active>a{
+  background: linear-gradient(45deg, #714B67, #5e4a59) !important;
+  color: #fff;
+}
+
+.main-button{
+    margin-left: 5rem;
+}
+#main-buttons-view .o_form_button_save{
+     background: linear-gradient(45deg, #714B67, #5e4a59) !important;
+}
+
+
+@media (max-width: 991px){
+.chat_box_tab{
+    width: 50%;
+    text-align: center;
+}
+.chat_box_tab.active{
+   color: #fff  !important;
+   background: linear-gradient(45deg, #714B67, #5e4a59) !important;
+}
+.chat_box_tab.active a{
+    color: #fff;
+}
+.chat_box_tab a{
+    color: linear-gradient(45deg, #714B67, #5e4a59) !important;
+}
+}
+
+.chat_box_tab{
+    width: 50%;
+    text-align: center;
+}
+.chat_box_tab.active{
+   color: #fff  !important;
+   background: linear-gradient(45deg, #714B67, #5e4a59) !important;
+}
+.chat_box_tab.active a{
+    color: #fff;
+}
+.chat_box_tab a{
+    color: linear-gradient(45deg, #714B67, #5e4a59) !important;
+}
+
+/* Message Body SCSS */
+.o_MessageList_whatsapp{
+    background-image: url('/tus_meta_wa_discuss/static/src/image/whatsapp_default_set.png');
+    background-color: #efeae2a6 !important;
+    &:not(.o-isAuthorNotCurrentUserOrGuest) {
+        .o_Message_bubble {
+            background-color: #d9fdd3;
+            border-bottom-left-radius: 0.6rem !important;
+            border-top-left-radius: 0.6rem !important;
+        }
+    }
+    .o-isAuthorNotCurrentUserOrGuest {
+        background-color: #fff !important;
+        opacity: 1 !important;
+        border: 0.5px solid #e5e5e5 !important;
+    }
+}
+.o_Message_content {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    .o_Message_seenIndicator {
+        display: flex;
+        position: absolute;
+        right: -12px;
+        bottom: -12px;
+        &.o_icon_read {
+            i {
+                color:#53bdeb;
+            }
+        }
+    }
+}

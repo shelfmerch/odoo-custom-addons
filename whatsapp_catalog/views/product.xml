@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+
+        <record id="action_product_fb_report" model="ir.actions.server">
+            <field name="name">FB Report</field>
+            <field name="model_id" ref="whatsapp_catalog.model_fb_report_wizard" />
+            <field name="binding_model_id" ref="product.model_product_template" />
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">action = records.generate_fb_xlsx_report()</field>
+        </record>
+    </data>
+</odoo>

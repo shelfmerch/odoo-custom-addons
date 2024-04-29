@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="whatsapp_chatbot_script_view_form" model="ir.ui.view">
+            <field name="name">whatsapp.chatbot.script.view.form</field>
+            <field name="model">whatsapp.chatbot.script</field>
+            <field name="arch" type="xml">
+                <form string="Whatsapp Chatbot Script">
+                    <sheet>
+                        <group>
+                            <field name="sequence" invisible="1"/>
+                            <field name="sequence"/>
+                            <field name="step_call_type"/>
+                            <field name="message"/>
+                            <field name="whatsapp_chatbot_id" invisible="1"/>
+                            <field
+                                    name="parent_id"
+                                    domain="[('whatsapp_chatbot_id','=',whatsapp_chatbot_id)]"
+                            />
+                            <field
+                                    name="answer"
+                                    widget="text_emojis"
+                                    placeholder="e.g. 'How can I help you?'"
+                                    invisible="step_call_type != 'message'"
+                                    readonly="step_call_type != 'message'"
+                                    required="step_call_type == 'message'"
+                            />
+                            <field
+                                    name="template_id"
+                                    invisible="step_call_type not in ['template', 'interactive']"
+                                    domain="[('template_type', '=', step_call_type)]"
+                                    readonly="step_call_type not in ['template', 'interactive']"
+                                    required="step_call_type in ['template', 'interactive']"
+                            />
+                            <field
+                                    name="action_id"
+                                    invisible="step_call_type != 'action'"
+                                    readonly="step_call_type != 'action'"
+                                    required="step_call_type == 'action'"
+                            />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

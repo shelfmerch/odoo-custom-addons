@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template_ext" xml:space="preserve">
+    <t t-name="MessageExt" t-inherit="mail.Message" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[@t-if='messageView.messageActionList and !messageView.composerViewInEditing']" position="replace">
+            <div t-if="messageView.messageActionList and !messageView.composerViewInEditing and messageView.threadView and messageView.threadView.thread and !messageView.threadView.thread.isWaMsgs" class="o_Message_actionListContainer pl-5 pr-3" t-att-class="{ 'o-squashed': messageView.isSquashed }">
+                <MessageActionList messageActionListLocalId="messageView.messageActionList.localId"/>
+            </div>
+        </xpath>
+
+        <!-- Add Sent, Delivered, Received, Read Status in WhatsApp for Every Message in Discuss, Chatter, Not in Chat Window/Sidebar -->
+        <xpath expr="//div[hasclass('o_Message_content')]//t[@t-if='!messageView.composerViewInEditing']" position="after">
+            <t t-if ="messageView.message.wp_status == 'sent'">
+                <div class="o_Message_seenIndicator me-1" t-att-data-tooltip="messageView.message.wp_status">
+                    <i class="o_MessageSeenIndicator_icon o-first fa fa-check ps-1"/>
+                </div>
+            </t>
+            <t t-if ="messageView.message.wp_status == 'delivered'">
+                <div class="o_Message_seenIndicator me-1" t-att-data-tooltip="messageView.message.wp_status">
+                    <i class="o_MessageSeenIndicator_icon o-first fa fa-check ps-1"/>
+                     <i class="o_MessageSeenIndicator_icon o-second fa fa-check position-absolute"/>
+                </div>
+            </t>
+            <t t-if ="messageView.message.wp_status == 'read'">
+                <div class="o_Message_seenIndicator o_icon_read me-1" t-att-data-tooltip="messageView.message.wp_status">
+                    <i class="o_MessageSeenIndicator_icon o-first fa fa-check ps-1"/>
+                    <i class="o_MessageSeenIndicator_icon o-second fa fa-check position-absolute"/>
+                </div>
+            </t>
+        </xpath>
+
+    </t>
+    <t t-name="MessageViewNotificationExt" t-inherit="mail.MessageViewNotification" t-inherit-mode="extension" owl="1">
+     <!-- Add WhatsApp Icon for Every WhatsApp Message in Discuss, Chatter, Chat Window/Sidebar -->
+        <xpath expr="//t[@t-if='messageView.message.failureNotifications.length > 0']//.." position="attributes">
+            <attribute name="t-if">messageView.messageListViewItemOwner and messageView.message.originThread and messageView.message.originThread === messageView.messageListViewItemOwner.messageListViewOwner.threadViewOwner.thread and messageView.message.notifications.length > 0 and messageView.message.message_type != 'wa_msgs'</attribute>
+        </xpath>
+            <xpath expr="//t[@t-if='messageView.message.failureNotifications.length > 0']//.." position="after">
+            <t t-if="messageView.message.message_type != 'notification'">
+                <t t-if="messageView.messageListViewItemOwner and messageView.message.originThread and messageView.message.originThread === messageView.messageListViewItemOwner.messageListViewOwner.threadViewOwner.thread and (messageView.message.notifications.length == 0 or messageView.message.message_type == 'wa_msgs') and messageView.message.message_type != 'comment' or  (messageView.isInChatter and messageView.message.notifications.length == 0) ">
+                    <div t-att-class="{ 'ms-2': messageView.isInChatWindowAndIsAlignedRight }">
+                         <span t-if="messageView.message.isWaMsgs" class="o_Message_notificationIconClickable text-600 cursor-pointer" t-ref="notificationIcon_wat">
+                                <i class="fa fa-whatsapp" t-att-class="messageView.notificationIconClassName"/> <span t-if="messageView.notificationIconLabel" t-out="messageView.notificationIconLabel"/>
+                        </span>
+                        <!-- When Message is Failed, Showing Error Message -->
+                        <t t-if="messageView.message.wa_delivery_status == 'failed'">
+                            <button class="btn" t-att-data-tooltip="messageView.message.wa_error_message" style="color:red;">
+                            <span class="fa fa-warning" aria-label="Error Message"/> This Message was not sent
+                        </button>
+                        </t>
+                    </div>
+
+                </t>
+            </t>
+        </xpath>
+    </t>
+</templates>

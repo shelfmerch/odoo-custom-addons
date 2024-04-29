@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_whatsapp_chatbot","access.whatsapp.chatbot","model_whatsapp_chatbot",base.group_user,1,1,1,1
+"access_whatsapp_chatbot_script","access.whatsapp.chatbot.script","model_whatsapp_chatbot_script",base.group_user,1,1,1,1
+"access_whatsapp_ir_actions","access.whatsapp.ir.actions","model_whatsapp_ir_actions",base.group_user,1,1,1,1

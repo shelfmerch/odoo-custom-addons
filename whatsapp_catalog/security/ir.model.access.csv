@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_fb_report_wizard","access.access_fb_report_wizard","model_fb_report_wizard",base.group_user,1,1,1,1
+"access_whatsapp_catalouge","access.access_whatsapp_catalouge","model_wa_catalogue",base.group_user,1,1,1,1

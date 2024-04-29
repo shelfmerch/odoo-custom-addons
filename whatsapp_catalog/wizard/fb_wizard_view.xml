@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="menu_fb_report_xlsx_wiz" model="ir.ui.view">
+            <field name="name">fb.report.wizard.form</field>
+            <field name="model">fb.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Fb Product Xlsx">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="binary_data" invisible="1" />
+                                <field name="product_ids" widget="many2many_tags" />
+                                <field name="brand" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button
+                            name="generate_fb_xlsx_report"
+                            class="oe_highlight"
+                            type="object"
+                            string="Print"
+                            data-hotkey="p"
+                        />
+                        <button
+                            string="Cancel"
+                            class="btn-default"
+                            special="cancel"
+                            data-hotkey="z"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="fb_report_xlsx_wiz" model="ir.actions.act_window">
+            <field name="name">Facebook Export Xlsx</field>
+            <field name="res_model">fb.report.wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="binding_model_id" ref="product.model_product_template" />
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="menu_fb_report_xlsx_wiz" />
+        </record>
+
+    </data>
+</odoo>

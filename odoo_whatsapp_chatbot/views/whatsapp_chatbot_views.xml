@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="whatsapp_chatbot_view_form" model="ir.ui.view">
+            <field name="name">whatsapp.chatbot.view.form</field>
+            <field name="model">whatsapp.chatbot</field>
+            <field name="arch" type="xml">
+                <form string="Whatsapp Chatbot">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button
+                                    class="oe_stat_button"
+                                    type="action"
+                                    invisible="wa_conversation_count == 0"
+                                    name="%(odoo_whatsapp_chatbot.discuss_channel_action_from_whatsapp_chatbot)d"
+                                    icon="fa-comments"
+                            >
+                                <field
+                                        string="Channel"
+                                        name="wa_conversation_count"
+                                        widget="statinfo"
+                                />
+                            </button>
+                        </div>
+                        <field name="active" invisible="1"/>
+                        <widget
+                                name="web_ribbon"
+                                title="Archived"
+                                bg_color="bg-danger"
+                                invisible="active == True"
+                        />
+                        <field
+                                name="image_1920"
+                                widget="image"
+                                class="oe_avatar"
+                                options="{'preview_image': 'image_128'}"
+                        />
+                        <div class="oe_title">
+                            <label for="title" string="Chatbot Name"/>
+                            <h1>
+                                <field
+                                        name="title"
+                                        default_focus="1"
+                                        placeholder='e.g. "Meeting Scheduler Bot"'
+                                />
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page string="Script">
+                                <field
+                                        name="step_type_ids"
+                                        widget="chatbot_steps_one2many"
+                                >
+                                    <tree>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="step_call_type"/>
+                                        <field name="message"/>
+                                        <field name="parent_id"/>
+                                        <field
+                                                name="answer"
+                                                readonly="step_call_type != 'message'"
+                                                required="step_call_type == 'message'"
+                                        />
+                                        <field
+                                                name="template_id"
+                                                readonly="step_call_type not in ['template', 'interactive']"
+                                                required="step_call_type in ['template', 'interactive']"
+                                        />
+                                        <field
+                                                name="action_id"
+                                                readonly="step_call_type != 'action'"
+                                                required="step_call_type == 'action'"
+                                        />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Actions">
+                                <field
+                                        name="action_ids"
+                                        widget="chatbot_steps_one2many"
+                                >
+                                    <tree name="Action">
+                                        <field name="name"/>
+                                        <field name="binding_model_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Operators" name="operators">
+                                <field name="user_ids">
+                                    <kanban>
+                                        <field name="id"/>
+                                        <field name="name"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click">
+                                                    <div class="o_kanban_image">
+                                                        <img
+                                                                t-att-src="kanban_image('res.users', 'avatar_1024', record.id.raw_value)"
+                                                                alt="User"
+                                                        />
+                                                    </div>
+                                                    <div class="o_kanban_details">
+                                                        <h4
+                                                                class="o_kanban_record_title"
+                                                        >
+                                                            <field name="name"/>
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="whatsapp_chatbot_view_tree" model="ir.ui.view">
+            <field name="name">whatsapp.chatbot.view.tree</field>
+            <field name="model">whatsapp.chatbot</field>
+            <field name="arch" type="xml">
+                <tree string="Whatsapp Chatbot">
+                    <field name="title"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="whatsapp_chatbot_action" model="ir.actions.act_window">
+            <field name="name">WhatsApp Chatbot</field>
+            <field name="res_model">whatsapp.chatbot</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+
+    <menuitem
+            id="whatsapp_chatbot_menu"
+            name="WhatsApp Chatbot"
+            parent="tus_meta_whatsapp_base.whatsapp_configuration"
+            action="whatsapp_chatbot_action"
+            sequence="12"
+            groups="tus_meta_whatsapp_base.whatsapp_group_manager"
+    />
+</odoo>

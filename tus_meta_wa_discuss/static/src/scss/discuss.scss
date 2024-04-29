@@ -1,0 +1,117 @@
+.o-discuss-AgentListPanel, .o-discuss-TemplateListPanel {
+    flex-basis: 800px !important;
+    .o_form_renderer {
+        flex-direction: column !important;
+        .o_form_sheet_bg {
+            flex: unset !important;
+        }
+        .o-mail-Form-chatter {
+            width: 100%;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-top: 10px;
+        }
+    }
+//     .o_content {
+//         height: 100vh;
+//         overflow: auto;
+//     }
+    .o_breadcrumb, .o_control_panel_main_buttons {
+        display: none !important;
+    }
+}
+// .o_Discuss_wa_thread{
+//      width: 50%;
+//      border-left: 1px solid #c7c5c5;
+// }
+// .o_Discuss_content{
+//     flex-flow:row !important;
+// }
+
+// // .nav-tabs.o-wa-threadview-nav a.active{
+// //     color:#504e48;
+// //     background-color: #E0E2E6;
+// // }
+// //
+// // .nav-tabs.o-wa-threadview-nav a{
+// //     color:white;
+// //     background-color: #504e48;
+// //     padding-top: 10px;
+// //     height: 46px;
+// //     padding: 12px 8px 8px 8px;
+// //     font-size:12px;
+// //     text-align:center;
+// // }
+
+// #main-form-view .o_form_view{
+//     flex-flow: column;
+//     width: 100%;
+// }
+// #main-form-view .o_form_view .o_FormRenderer_chatterContainer{
+//     width: 100%;
+// }
+// #main-form-view .o_form_view .o_form_sheet_bg{
+//     width: 100%;
+// }
+// #main-form-view{
+//     width: 100%;
+//     height: 100%;
+//     overflow: auto;
+// }
+
+// .agent_container{
+//   border: 2px solid #dedede;
+//   background-color: #f1f1f1;
+//   border-radius: 5px;
+//   padding: 3px;
+//   width:100%;
+//   display:flex;
+// }
+
+// /*
+// .agent_container:hover .remove {
+//   display: block !important;
+// }*/
+// .send_pre_message,.remove{
+//     display:none;
+//     float: right;
+//     margin-top: -6px;
+//     border-radius: 5px;
+// }
+// .message_container:hover .send_pre_message,.message_container:hover .location_send {
+//   display: block !important;
+// }
+// .o_product_record {
+//     cursor: pointer;
+//     position: relative;
+//     display: inline-block;
+//     border-color: #d9d7d7;
+//     border: 2px solid #e5e5e5;
+//     background-color: white;
+//     flex: 1 1 auto;
+//     width: 249px;
+//     margin-bottom: 4px;
+//     color: black;
+//     margin:1px;
+// }
+// .message_container{
+//   border: 2px solid #dedede;
+//   background-color: #f1f1f1;
+//   border-radius: 5px;
+//   padding: 5px 0px 5px 5px;
+// }
+// .o-mail-Discuss-content {
+//     .o_thread_nav {
+//         .d-flex.flex-column {
+//             .o-mail-Thread {
+
+//             }
+//             .waThreadView {
+
+//             }
+//         }
+//     }
+// }
+// .o_thread_nav {
+//     width: 50%;
+// }

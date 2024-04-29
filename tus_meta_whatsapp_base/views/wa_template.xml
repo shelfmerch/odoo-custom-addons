@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="wa_template_view_form" model="ir.ui.view">
+            <field name="name">wa.template.view.form</field>
+            <field name="model">wa.template</field>
+            <field name="arch" type="xml">
+                <form string="whatsapp Templates">
+                    <header>
+                        <button name="add_whatsapp_template" type="object" string="Add Whatsapp Template" class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="add_imported_whatsapp_template" type="object" string="Add Template" class="oe_highlight" invisible="state != 'imported'"/>
+                        <button name="remove_whatsapp_template" type="object" string="Remove Whatsapp Template" class="oe_highlight" invisible="state != 'added'"/>
+                        <button name="get_whatsapp_template_status" type="object" string="Get Template Status"
+                                class="oe_highlight"/>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                             <button
+                                    class="oe_stat_button oe_stat_button_red"
+                                    icon="fa-circle"
+                                    invisible="template_status == 'APPROVED' or template_status == False"
+                                >
+                                     <field name="template_status"/>
+                            </button>
+                              <button
+                                    class="oe_stat_button oe_stat_button_green"
+                                    icon="fa-circle"
+                                    invisible="template_status != 'APPROVED' or template_status == False"
+                                >
+                                     <field name="template_status"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="WA Template"/>
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
+                            <group>
+                                <field name="provider_id" required="1"/>
+                                <field name="template_status" invisible="1"/>
+                                <field name="category"/>
+                                <field name="template_type"/>
+                                <field name="lang" required="1"/>
+                                <field name="namespace"/>
+                                <field name="model_id" required="1" options="{'no_create': True}"/>
+                                <field name="model" invisible="1"/>
+                            </group>
+                        </div>
+                        <notebook>
+
+                            <page string="Content" name="content">
+                                <group>
+                                    <field name="body_html" widget="html" nolabel="1" colspan="2"/>
+                                </group>
+                            </page>
+                            <page string="Components" name="components">
+                                <group>
+                                    <field name="components_ids" context="{'default_model_id':model_id}">
+                                        <tree string="Components">
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="type"/>
+                                            <field name="text"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="wa_template_view_tree" model="ir.ui.view">
+            <field name="name">wa.template.view.tree</field>
+            <field name="model">wa.template</field>
+            <field name="arch" type="xml">
+                <tree string="WA Templates">
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <button name="send_pre_message_by_whatsapp" type="object" string="Send"
+                            class="oe_highlight"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="wa_template_action" model="ir.actions.act_window">
+            <field name="name">Templates</field>
+            <field name="res_model">wa.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="wa_template_menu"
+                  name="WA Templates"
+                  parent="wa_msgs_menu"
+                  sequence="3"
+                  action="wa_template_action" groups="tus_meta_whatsapp_base.whatsapp_group_user"/>
+    </data>
+</odoo>

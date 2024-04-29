@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="wa_compose_message_wizard_form">
+        <field name="name">wa.compose.message.form</field>
+        <field name="model">wa.compose.message</field>
+        <field name="arch" type="xml">
+            <form string="Compose WA">
+                <group>
+                    <group>
+                        <field name="partner_id" placeholder="Add contacts to notify..."/>
+                        <field name="model" invisible="1"/>
+                        <field name="res_id" invisible="1"/>
+                    </group>
+                    <br/>
+                    <field name="body" nolabel="1" class="oe-bordered-editor"
+                           placeholder="Write your message here..."
+                           options="{'style-inline': true}" force_save="1"/>
+                </group>
+                <br/>
+                <group>
+                    <group>
+                        <field name="provider_id" required="1"
+                               domain="[('company_id','=',company_id),('id','in',allowed_provider_ids)]"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="allowed_provider_ids" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="domain_template_ids" invisible="1"/>
+                        <field name="template_id" domain="[('id','in',domain_template_ids)]"/>
+                    </group>
+                </group>
+                <br/>
+                <group col="4">
+                    <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1"
+                           colspan="2"/>
+                </group>
+                <footer>
+                    <button name="send_whatsapp_message" string="Send Message" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wa_compose_message_wizard" model="ir.actions.act_window">
+        <field name="name">Compose WA</field>
+        <field name="res_model">wa.compose.message</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

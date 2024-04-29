@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="wa_interactive_template" model="wa.template">
+            <field name="name">wa_interactive_template</field>
+            <field name="provider_id" ref="tus_meta_whatsapp_base.provider_1"/>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="template_type">interactive</field>
+            <field name="state">added</field>
+            <field name="category">marketing</field>
+            <field name="lang" ref="base.lang_en"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Hello. Welcome to TechUltra! Hope everyone is safe &amp; healthy 🤗
+
+                            What can I help you with?
+
+                            💡 Click any of the buttons below to make your selection or ask me any question below.
+
+                            I understand English and simple text. No stickers or attachments necessary!
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="wa_interactive_template_body" model="components">
+            <field name="type">body</field>
+            <field name="formate">text</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template"/>
+            <field name="text">
+                Hello. Welcome to TechUltra! Hope everyone is safe &amp; healthy 🤗
+
+                What can I help you with?
+
+                💡 Click any of the buttons below to make your selection or ask me any question below.
+
+                I understand English and simple text. No stickers or attachments necessary!
+            </field>
+        </record>
+        <record id="wa_interactive_template_interactive" model="components">
+            <field name="type">interactive</field>
+            <field name="interactive_type">list</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template"/>
+            <field name="interactive_list_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {
+                'main_title': 'Options',
+                'title_ids': [(5, 0, 0),
+                (0, 0, {
+                   'title': 'New Registration'
+                }),
+                (0, 0, {
+                   'title': 'Get help with a problem'
+                }),
+                (0, 0, {
+                   'title': 'Talk to our agent'
+                })]
+            })]"/>
+        </record>
+
+        <record id="wa_interactive_template_1" model="wa.template">
+            <field name="name">wa_interactive_template_1</field>
+            <field name="provider_id" ref="tus_meta_whatsapp_base.provider_1"/>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="template_type">interactive</field>
+            <field name="state">added</field>
+            <field name="category">marketing</field>
+            <field name="lang" ref="base.lang_en"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Please pick the product from the below 👇
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="wa_interactive_template_1_body" model="components">
+            <field name="type">body</field>
+            <field name="formate">text</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_1"/>
+            <field name="text">
+                Please pick the product from the below 👇
+            </field>
+        </record>
+        <record id="wa_interactive_template_1_interactive" model="components">
+            <field name="type">interactive</field>
+            <field name="interactive_type">list</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_1"/>
+            <field name="interactive_list_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {
+                'main_title': 'Menu',
+                'title_ids': [(5, 0, 0),
+                (0, 0, {
+                   'title': 'Refrigerator'
+                }),
+                (0, 0, {
+                   'title': 'AC'
+                }),
+                (0, 0, {
+                   'title': 'Washing Machine'
+                })]
+            })]"/>
+        </record>
+
+        <record id="wa_interactive_template_2" model="wa.template">
+            <field name="name">wa_interactive_template_2</field>
+            <field name="provider_id" ref="tus_meta_whatsapp_base.provider_1"/>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="template_type">interactive</field>
+            <field name="state">added</field>
+            <field name="category">marketing</field>
+            <field name="lang" ref="base.lang_en"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Which type of Refrigerator do you own?
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="wa_interactive_template_2_body" model="components">
+            <field name="type">body</field>
+            <field name="formate">text</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_2"/>
+            <field name="text">
+                Which type of Refrigerator do you own?
+            </field>
+        </record>
+        <record id="wa_interactive_template_2_interactive" model="components">
+            <field name="type">interactive</field>
+            <field name="interactive_type">button</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_2"/>
+            <field name="interactive_button_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {
+                'title': 'Single Door',
+            }),
+            (0, 0, {
+                'title': 'Double Door',
+            })]"/>
+        </record>
+
+        <record id="wa_interactive_template_3" model="wa.template">
+            <field name="name">wa_interactive_template_3</field>
+            <field name="provider_id" ref="tus_meta_whatsapp_base.provider_1"/>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="template_type">interactive</field>
+            <field name="state">added</field>
+            <field name="category">marketing</field>
+            <field name="lang" ref="base.lang_en"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Which of the following issues are you facing?
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="wa_interactive_template_3_body" model="components">
+            <field name="type">body</field>
+            <field name="formate">text</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="text">
+                Which of the following issues are you facing?
+            </field>
+        </record>
+        <record id="wa_interactive_template_3_interactive" model="components">
+            <field name="type">interactive</field>
+            <field name="interactive_type">button</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_3"/>
+            <field name="interactive_button_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {
+                'title': 'Water Leakage'
+            }),
+            (0, 0, {
+                'title': 'No Cooling',
+            })]"/>
+        </record>
+
+        <record id="wa_interactive_template_4" model="wa.template">
+            <field name="name">wa_interactive_template_4</field>
+            <field name="provider_id" ref="tus_meta_whatsapp_base.provider_1"/>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="template_type">interactive</field>
+            <field name="state">added</field>
+            <field name="category">marketing</field>
+            <field name="lang" ref="base.lang_en"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            DISCLAIMER: Service charges will apply if your product is out of warranty.
+
+                            Our representatives will get in touch with you about the charges involved.
+
+                            💡 Click Raise Ticket to continue or Menu to go back to the main menu.
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="wa_interactive_template_4_body" model="components">
+            <field name="type">body</field>
+            <field name="formate">text</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_4"/>
+            <field name="text">
+                DISCLAIMER: Service charges will apply if your product is out of warranty.
+
+                Our representatives will get in touch with you about the charges involved.
+
+                💡 Click Raise Ticket to continue or Menu to go back to the main menu.
+            </field>
+        </record>
+        <record id="wa_interactive_template_4_interactive" model="components">
+            <field name="type">interactive</field>
+            <field name="interactive_type">button</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_4"/>
+            <field name="interactive_button_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {
+                'title': 'Raise Issue'
+            }),
+            (0, 0, {
+                'title': 'Menu',
+            })]"/>
+        </record>
+
+        <record id="wa_interactive_template_5" model="wa.template">
+            <field name="name">wa_interactive_template_5</field>
+            <field name="provider_id" ref="tus_meta_whatsapp_base.provider_1"/>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="template_type">interactive</field>
+            <field name="state">added</field>
+            <field name="category">marketing</field>
+            <field name="lang" ref="base.lang_en"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                           Which type of Air Conditioner do you own?
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="wa_interactive_template_5_body" model="components">
+            <field name="type">body</field>
+            <field name="formate">text</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_5"/>
+            <field name="text">
+                Which type of Air Conditioner do you own?
+            </field>
+        </record>
+        <record id="wa_interactive_template_5_interactive" model="components">
+            <field name="type">interactive</field>
+            <field name="interactive_type">button</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_5"/>
+            <field name="interactive_button_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {
+                'title': 'Window AC'
+            }),
+            (0, 0, {
+                'title': 'SPLIT AC - NORMAL',
+            })]"/>
+        </record>
+
+        <record id="wa_interactive_template_6" model="wa.template">
+            <field name="name">wa_interactive_template_6</field>
+            <field name="provider_id" ref="tus_meta_whatsapp_base.provider_1"/>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="template_type">interactive</field>
+            <field name="state">added</field>
+            <field name="category">marketing</field>
+            <field name="lang" ref="base.lang_en"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                           Which type of Washing Machine do you own?
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="wa_interactive_template_6_body" model="components">
+            <field name="type">body</field>
+            <field name="formate">text</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_6"/>
+            <field name="text">
+                Which type of Washing Machine do you own?
+            </field>
+        </record>
+        <record id="wa_interactive_template_6_interactive" model="components">
+            <field name="type">interactive</field>
+            <field name="interactive_type">button</field>
+            <field name="wa_template_id" ref="odoo_whatsapp_chatbot.wa_interactive_template_6"/>
+            <field name="interactive_button_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {
+                'title': 'Fully Automatic'
+            }),
+            (0, 0, {
+                'title': 'Semi Automatic',
+            }),
+            (0, 0, {
+                'title': 'Front Loading',
+            })]"/>
+        </record>
+    </data>
+</odoo>

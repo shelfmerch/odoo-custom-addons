@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="components_view_form" model="ir.ui.view">
+            <field name="name">components.view.form</field>
+            <field name="model">components</field>
+            <field name="arch" type="xml">
+                <form string="Components">
+                    <sheet>
+                        <group>
+                            <field name="type"/>
+                            <field name="formate" invisible="type != 'header'"/>
+                            <field name="formate_media_type" invisible="type != 'header' or formate != 'media'"/>
+                            <field name="media_type" invisible="type != 'header' or formate != 'media'"/>
+                            <field name="attachment_ids" widget="many2many_binary"
+                                   invisible="formate != 'media' or formate_media_type != 'static'"/>
+                            <field name="text"
+                                   invisible="type == 'header' and formate == 'media' or type == 'buttons' or type == 'interactive'"/>
+                            <field name="model_id" force_save="1" invisible="1"/>
+                            <field name="button_type" invisible="type != 'buttons'"/>
+                            <field name="interactive_type" invisible="type != 'interactive'"/>
+                        </group>
+                        <style>
+                            .custom_button{
+                            margin: 5px;
+                            }
+                        </style>
+                        <group name="buttons" invisible="type != 'buttons' or button_type != 'call_to_action'">
+                            <group>
+                                <field name="type_of_action"/>
+                                <field name="button_text"/>
+                            </group>
+                            <group>
+                                <field name="phone_number" widget="phone" invisible="type_of_action != 'PHONE_NUMBER'"/>
+                                <field name="url_type" invisible="type_of_action != 'URL'"/>
+                                <field name="static_website_url" placeholder="https://example.com"
+                                       invisible="type_of_action != 'URL' or url_type != 'static'"/>
+                                <field name="dynamic_website_url" placeholder="https://example.com/{{a}}"
+                                       invisible="type_of_action != 'URL' or url_type != 'dynamic'"/>
+                            </group>
+                        </group>
+
+                        <field name="is_button_clicked" invisible="1"/>
+                        <field name="name" invisible="1"/>
+
+                        <group invisible="type != 'buttons' or is_button_clicked == True or button_type != 'call_to_action'">
+                            <group>
+                                <field name="type_of_action_2"/>
+                                <field name="button_text_2"/>
+                            </group>
+                            <group>
+                                <field name="phone_number_2" widget="phone" invisible="type_of_action_2 != 'PHONE_NUMBER'"/>
+                                <field name="url_type_2" invisible="type_of_action_2 != 'URL'"/>
+                                <field name="static_website_url_2" placeholder="https://example.com" invisible="type_of_action_2 != 'URL' or url_type_2 != 'static'"/>
+                                <field name="dynamic_website_url_2" placeholder="https://example.com/{{a}}"
+                                      invisible="type_of_action_2 != 'URL' or url_type_2 != 'dynamic'"/>
+                            </group>
+                        </group>
+                        <button string="Delete Button" type="object" name="delete_button"
+                                class="oe_highlight custom_button" invisible="button_type != 'call_to_action' or is_button_clicked == True or type != 'buttons'"/>
+
+                        <group invisible="type != 'buttons' or button_type == 'none' or button_type != 'quick_reply'">
+                            <group>
+                                <field name="quick_reply_type"/>
+                                <field name="button_text" invisible="quick_reply_type != 'custom'"/>
+                            </group>
+                        </group>
+
+                        <field name="is_second_button_clicked" invisible="1"/>
+
+                        <group invisible="type != 'buttons' or is_button_clicked == True or button_type == 'none' or button_type != 'quick_reply'">
+                            <group>
+                                <field name="quick_reply_type_2"/>
+                                <field name="button_text_2" invisible="quick_reply_type_2 != 'custom'"/>
+                            </group>
+                        </group>
+                        <button string="Delete Button" type="object" name="delete_button"
+                                class="oe_highlight custom_button"
+                                invisible="button_type != 'quick_reply' or is_button_clicked == True or type != 'buttons'"/>
+
+                        <group invisible="type != 'buttons' or is_second_button_clicked == True or button_type == 'none' or button_type != 'quick_reply'">
+                            <group>
+                                <field name="quick_reply_type_3"/>
+                                <field name="button_text_3" invisible="quick_reply_type_3 != 'custom'"/>
+                            </group>
+                        </group>
+                        <button string="Delete Button" type="object" name="delete_button_2"
+                                class="oe_highlight custom_button" invisible="button_type != 'quick_reply' or type != 'buttons' or is_second_button_clicked == True"/>
+                        <group invisible="type != 'interactive' or interactive_type != 'list'">
+                            <field name="interactive_list_ids">
+                                <tree string="List Items">
+                                    <field name="main_title"/>
+                                    <field name="title_ids"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                        <group invisible="type != 'interactive' or interactive_type != 'button'">
+                            <field name="interactive_button_ids">
+                                <tree string="Button Items" editable="bottom">
+                                    <field name="title"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                        <group invisible="type != 'interactive' or interactive_type != 'product_list'">
+                            <field name="catalog_id"/>
+                            <field name="interactive_product_list_ids">
+                                <tree string="Product list Items">
+                                    <field name="main_title"/>
+                                    <field name="product_list_ids"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                        <group>
+                            <field name="catalog_id" invisible="type != 'interactive' or interactive_type != 'product'"/>
+                            <field name="product_retailer_id" invisible="type != 'interactive' or interactive_type != 'product'"/>
+                        </group>
+
+                        <button string="Add Another Button" type="object" name="add_another_button"
+                                class="oe_highlight custom_button"
+                                invisible="type != 'buttons' or button_type not in ['quick_reply', 'call_to_action'] or is_button_clicked == False"/>
+                        <button string="Add Another Button" type="object" name="add_third_button"
+                                class="oe_highlight custom_button"
+                                invisible="type != 'buttons' or is_button_clicked == True or button_type != 'quick_reply' or is_second_button_clicked == False"/>
+                        <notebook>
+                            <page string="Variables" name="variables">
+                                <group>
+                                    <field name="variables_ids" context="{'default_model_id':model_id}"
+                                           invisible="formate == 'media'"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="components_view_tree" model="ir.ui.view">
+            <field name="name">components.view.tree</field>
+            <field name="model">components</field>
+            <field name="arch" type="xml">
+                <tree string="Components">
+                    <field name="type"/>
+                    <field name="text"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

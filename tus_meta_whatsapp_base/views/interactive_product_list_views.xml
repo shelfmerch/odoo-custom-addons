@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="interactive_product_list_view_form" model="ir.ui.view">
+            <field name="name">interactive.product.list.name</field>
+            <field name="model">interactive.product.list</field>
+            <field name="arch" type="xml">
+                <form string="List">
+                    <sheet>
+                        <group>
+                            <field name="main_title"/>
+                            <field name="component_id" invisible="1"/>
+                            <field name="product_list_ids">
+                                <tree editable="bottom">
+                                    <field name="product_retailer_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

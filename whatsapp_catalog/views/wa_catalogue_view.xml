@@ -1,0 +1,93 @@
+<odoo>
+    <record model="ir.ui.view" id="wa_catalogue_form_view">
+        <field name="name">wa.catalogue.form</field>
+        <field name="model">wa.catalogue</field>
+        <field name="arch" type="xml">
+            <form string="WhatsApp Catalogue">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="catalogue_name" placeholder="Select Name" />
+                            <field
+                                name="catalogue_id"
+                                placeholder="Select Catalogue Id"
+                            />
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Model">
+                            <field
+                                name="model_id"
+                                placeholder="Select Model Eg. Sale order"
+                                required="1"
+                            />
+                        </group>
+                        <group string="Company">
+                            <field name="company_id" />
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Template Selection">
+                            <field
+                                name="payment_template"
+                                required="payment_type != 'None'"
+                                placeholder="Send Payment Template"
+                            />
+                            <field
+                                name="success_template"
+                                invisible="payment_type == 'odoopay'"
+                                placeholder="Success Payment status Template"
+                            />
+                            <field
+                                name="failed_template" invisible="1"
+                                placeholder="Failed Payment status Template"
+                            />
+                        </group>
+                        <group string="Payment Configurations">
+                            <field
+                                name="payment_configuration_name"
+                                invisible="payment_type == 'odoopay'"
+                                placeholder="Payment Configured in Meta"
+                            />
+                            <field
+                                name="payment_type"
+                                placeholder="Select Payment Types"
+                            />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="wa_catalogue_tree_view">
+        <field name="name">wa.catalogue.tree</field>
+        <field name="model">wa.catalogue</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="model_id" />
+                <field name="catalogue_name"/>
+                <field name="payment_type"/>
+                <field name="payment_configuration_name" placeholder="Payment Configured in Meta"/>
+                <field name="payment_template" placeholder="Send Payment Template" />
+                <field name="active" widget="boolean_toggle" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="catalogue_action">
+        <field name="name">WhatsApp Catalogue</field>
+        <field name="res_model">wa.catalogue</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="catalogue_menu"
+        name="WhatsApp Catalogue"
+        parent="tus_meta_whatsapp_base.whatsapp_configuration"
+        action="catalogue_action"
+        sequence="30"
+        groups="tus_meta_whatsapp_base.whatsapp_group_manager"
+    />
+</odoo>

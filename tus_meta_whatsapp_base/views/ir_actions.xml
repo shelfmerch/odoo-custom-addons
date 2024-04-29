@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ir_actions_server_view_form_wa" model="ir.ui.view">
+            <field name="name">ir.actions.server.view.form.inherit.wa</field>
+            <field name="model">ir.actions.server</field>
+            <field name="inherit_id" ref="base.view_server_action_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='link_field_id']" position="after">
+                    <field name="isWaMsgs" invisible="1"/>
+                    <field name="wa_template_id"
+                           placeholder="Choose a Whatsapp template..."
+                           context="{'default_model_id': model_id}"
+                           invisible="state != 'whatsapp'"
+                           required="state == 'whatsapp'"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_base_automation_form_whatsapp">
+            <field name="name">base.automation.form</field>
+            <field name="model">base.automation</field>
+            <field name="inherit_id" ref="base_automation.view_base_automation_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='trigger']" position="after">
+                    <field name="is_whatsapp_action" invisible="1" class="oe_inline me-3"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="base_automation_act_wa" model="ir.actions.act_window">
+            <field name="name">Automated Actions</field>
+            <field name="res_model">base.automation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="base_automation.view_base_automation_tree"/>
+            <field name="domain">[('is_whatsapp_action', '=', True)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Setup a new automated automation
+                </p>
+                <p>
+                    Use automated actions to automatically trigger actions for
+                    various screens. Example: a lead created by a specific user may
+                    be automatically set to a specific Sales Team, or an
+                    opportunity which still has status pending after 14 days might
+                    trigger an automatic reminder email.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_base_automation_form" name="WhatsApp Automation"
+                  parent="tus_meta_whatsapp_base.whatsapp_configuration" action="base_automation_act_wa" sequence="15"
+                  groups="tus_meta_whatsapp_base.whatsapp_group_manager"/>
+    </data>
+</odoo>
