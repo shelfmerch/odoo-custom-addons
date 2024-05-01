@@ -1,4 +1,4 @@
-from odoo import models, api, fields , _
+from odoo import models, api, fields, _
 from odoo.http import request
 import requests
 import json
@@ -34,7 +34,6 @@ class Provider(models.Model):
     is_token_generated = fields.Boolean('Is Token Generated')
     call_back_url = fields.Html(string="Call Back URL & Verify Token")
 
-
     def GenerateVerifyToken(self):
         seconds = time.time()
         unix_time_to_string = str(seconds).split('.')[0]  # time.time() generates a float example 1596941668.6601112
@@ -63,8 +62,6 @@ class Provider(models.Model):
                     ("please check your internet connection."))
             if response.status_code == 200:
                 dict = json.loads(response.text)
-                # if dict['status'] == 'connected':
-                # if dict['id'] == '111367598360060':
                 if dict['id'] == self.graph_api_instance_id:
                     self.graph_api_authenticated = True
 
@@ -75,7 +72,9 @@ class Provider(models.Model):
                         "webhookUrl": base_url + "/graph_tus/webhook"
                     }
                     verify_token = self.GenerateVerifyToken()
-                    self.call_back_url = '<p>Now, You can set below details to your facebook configurations.</p><p>Call Back URL: <u><a href="%s">%s</a></u></p><p>Verify Token: <u style="color:#017e84">%s</u></p>' % (data.get('webhookUrl'), data.get('webhookUrl'),verify_token)
+                    self.call_back_url = ('<p>Now, You can set below details to your facebook configurations.</p><p>Call Back URL: <u><a href="%s">%s</a></u></p><p>Verify Token: <u '
+                                          'style="color:#017e84">%s</u></p>') % (
+                                             data.get('webhookUrl'), data.get('webhookUrl'), verify_token)
                     self.is_token_generated = True
             else:
                 self.graph_api_authenticated = False
@@ -94,13 +93,26 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -142,18 +154,33 @@ class Provider(models.Model):
                     if json.loads(answer.text) and 'error' in json.loads(answer.text):
                         if 'error_user_msg' in json.loads(answer.text).get(
                                 'error') and 'error_user_title' in json.loads(
-                                answer.text).get('error'):
+                                answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                             dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                                 'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                                 'error_user_msg')
                             raise UserError(_(dict))
-                        if 'message' in json.loads(answer.text).get('error'):
+                        elif 'error_user_msg' in json.loads(answer.text).get(
+                                'error') and 'error_user_title' in json.loads(
+                                answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                            dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                                'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                                'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get(
+                                'error_data').get(
+                                'details')
+                            raise UserError(_(dict))
+                        if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                                answer.text).get('error'):
                             dict = json.loads(answer.text).get('error').get('message')
+                            raise UserError(_(dict))
+                        elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                                answer.text).get('error'):
+                            dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                                answer.text).get('error').get('error_data').get('details')
                             raise UserError(_(dict))
                 return answer
 
     def graph_api_get_whatsapp_template(self):
-        if self.graph_api_authenticated:
+        if self.graph_api_authenticated:    
             url = self.graph_api_url + self.graph_api_business_id + "/message_templates"
             data = {}
             headers = {
@@ -167,27 +194,40 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
                         raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
+                        raise UserError(_(dict))
             else:
-
                 whatsapp_templates = json.loads(answer.text)
                 for template in whatsapp_templates['data']:
                     wa_template = self.env['wa.template'].search([('name', '=', template['name'])])
                     if not wa_template:
-                        language = self.env['res.lang'].search([('iso_code', '=', template['language'])])
+                        language = self.env['res.lang'].sudo().search([('iso_code', '=', template['language'])])
                         if not language:
-                            language |= self.env['res.lang'].search([]).filtered(lambda x:x.code == template['language'])
+                            language |= self.env['res.lang'].sudo().search([]).filtered(lambda x: x.code == template['language'])
                         vals = {
                             'name': template['name'],
                             'category': template['category'].lower(),
                             'template_status': template['status'],
+                            'graph_message_template_id': template['id'],
                             'template_type': 'template',
                             'state': 'added',
                             'lang': language.id,
@@ -218,7 +258,7 @@ class Provider(models.Model):
                                 }))
                         vals['components_ids'] = component_list
 
-                        self.env['wa.template'].create(vals)
+                        self.env['wa.template'].sudo().create(vals)
 
         else:
             raise UserError(
@@ -227,10 +267,10 @@ class Provider(models.Model):
     # phone change to mobile
     def graph_api_direct_send_message(self, recipient, message):
         if self.graph_api_authenticated:
-            data ={}
+            data = {}
             # if quotedMsgId:
             #     data.update({'quotedMsgId':quotedMsgId})
-                # phone change to mobile
+            # phone change to mobile
             data = {
                 "messaging_product": "whatsapp",
                 "to": recipient.phone or recipient.mobile,
@@ -241,8 +281,8 @@ class Provider(models.Model):
             }
             url = self.graph_api_url + self.graph_api_instance_id + "/messages?access_token=" + self.graph_api_token
             headers = {
-              'Content-Type': 'application/json',
-              # 'Authorization': 'Bearer '+self.graph_api_token
+                'Content-Type': 'application/json',
+                # 'Authorization': 'Bearer '+self.graph_api_token
             }
             try:
                 answer = requests.post(url, data=json.dumps(data), headers=headers)
@@ -254,13 +294,26 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -269,10 +322,10 @@ class Provider(models.Model):
 
     def graph_api_send_message(self, recipient, message, quotedMsgId):
         if self.graph_api_authenticated:
-            data ={}
+            data = {}
             # if quotedMsgId:
             #     data.update({'quotedMsgId':quotedMsgId})
-                # phone change to mobile
+            # phone change to mobile
             data = {
                 "messaging_product": "whatsapp",
                 "to": recipient.mobile,
@@ -283,8 +336,8 @@ class Provider(models.Model):
             }
             url = self.graph_api_url + self.graph_api_instance_id + "/messages?access_token=" + self.graph_api_token
             headers = {
-              'Content-Type': 'application/json',
-              # 'Authorization': 'Bearer '+self.graph_api_token
+                'Content-Type': 'application/json',
+                # 'Authorization': 'Bearer '+self.graph_api_token
             }
             try:
                 answer = requests.post(url, data=json.dumps(data), headers=headers)
@@ -294,13 +347,26 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -327,13 +393,26 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -367,13 +446,26 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -384,14 +476,14 @@ class Provider(models.Model):
         if self.graph_api_authenticated:
             url = self.graph_api_url + self.graph_api_instance_id + "/messages"
             data = {
-                  "messaging_product": "whatsapp",
-                  "recipient_type": "individual",
-                  "to": recipient.phone or recipient.mobile,
-                  "type": sent_type,
-                  sent_type: {
+                "messaging_product": "whatsapp",
+                "recipient_type": "individual",
+                "to": recipient.phone or recipient.mobile,
+                "type": sent_type,
+                sent_type: {
                     "id": media_id
-                  }
                 }
+            }
             if sent_type == 'document':
                 data[sent_type]['filename'] = attachment_id.name
 
@@ -409,13 +501,26 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -426,14 +531,14 @@ class Provider(models.Model):
         if self.graph_api_authenticated:
             url = self.graph_api_url + self.graph_api_instance_id + "/messages"
             data = {
-                  "messaging_product": "whatsapp",
-                  "recipient_type": "individual",
-                  "to": recipient.mobile,
-                  "type": sent_type,
-                  sent_type: {
+                "messaging_product": "whatsapp",
+                "recipient_type": "individual",
+                "to": recipient.mobile,
+                "type": sent_type,
+                sent_type: {
                     "id": media_id
-                  }
                 }
+            }
             if sent_type == 'document':
                 data[sent_type]['filename'] = attachment_id.name
 
@@ -444,17 +549,32 @@ class Provider(models.Model):
             }
             try:
                 answer = requests.post(url, headers=headers, data=payload)
-
             except requests.exceptions.ConnectionError:
                 raise UserError(
                     ("please check your internet connection."))
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
-                    if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(answer.text).get('error'):
-                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get('error_user_title') +'\nMessage  :  '+  json.loads(answer.text).get('error').get('error_user_msg')
+                    if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -477,19 +597,31 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
             raise UserError(
                 ("please authenticated your whatsapp."))
-
 
     def send_image(self, recipient, attachment_id):
         t = type(self)
@@ -497,32 +629,94 @@ class Provider(models.Model):
         res = fn(self, recipient, attachment_id)
         return res
 
-
     def graph_api_add_template(self, name, language, category, components):
         if self.graph_api_authenticated:
             data = {
-                        "name": name,
-                        "language": language,
-                        "category": category,
-                        "components": components,
-                    }
+                "name": name,
+                "language": language,
+                "category": category,
+                "components": components,
+            }
             url = self.graph_api_url + self.graph_api_business_id + "/message_templates?access_token=" + self.graph_api_token
 
             headers = {'Content-type': 'application/json'}
 
             try:
                 answer = requests.post(url, data=json.dumps(data), headers=headers)
-
             except requests.exceptions.ConnectionError:
                 raise UserError(
                     ("please check your internet connection."))
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
-                    if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(answer.text).get('error'):
-                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get('error_user_title') +'\nMessage  :  '+  json.loads(answer.text).get('error').get('error_user_msg')
+                    if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
+                        raise UserError(_(dict))
+            return answer
+        else:
+            raise UserError(
+                ("please authenticated your whatsapp."))
+
+    def graph_api_resubmit_template(self, category, template_id, components):
+        if self.graph_api_authenticated:
+            data = {
+                        "category": category,
+                        "components": components,
+                    }
+            if template_id:
+                url = self.graph_api_url + template_id
+            else:
+                raise UserError(("Template UID is missing in the template"))
+
+            headers = {'Content-type': 'application/json',
+                       'Authorization': 'Bearer ' + self.graph_api_token}
+
+            try:
+                answer = requests.post(url, data=json.dumps(data), headers=headers)
+            except requests.exceptions.ConnectionError:
+                raise UserError(
+                    ("please check your internet connection."))
+            if answer.status_code != 200:
+                if json.loads(answer.text) and 'error' in json.loads(answer.text):
+                    if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg')
+                        raise UserError(_(dict))
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -558,13 +752,26 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -600,13 +807,26 @@ class Provider(models.Model):
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
                     if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
-                            answer.text).get('error'):
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
                         dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
                             'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -616,11 +836,11 @@ class Provider(models.Model):
     def graph_api_remove_template(self, name):
         if self.graph_api_authenticated:
             data = {
-                        "name": name,
-                        # "language": language,
-                        # "category": category,
-                        # "components": components,
-                    }
+                "name": name,
+                # "language": language,
+                # "category": category,
+                # "components": components,
+            }
             url = self.graph_api_url + self.graph_api_business_id + "/message_templates?name=" + name + "&access_token=" + self.graph_api_token
             headers = {'Content-type': 'application/json'}
 
@@ -633,11 +853,27 @@ class Provider(models.Model):
                     ("please check your internet connection."))
             if answer.status_code != 200:
                 if json.loads(answer.text) and 'error' in json.loads(answer.text):
-                    if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(answer.text).get('error'):
-                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get('error_user_title') +'\nMessage  :  '+  json.loads(answer.text).get('error').get('error_user_msg')
+                    if 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' not in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg')
                         raise UserError(_(dict))
-                    if 'message' in json.loads(answer.text).get('error'):
+                    elif 'error_user_msg' in json.loads(answer.text).get('error') and 'error_user_title' in json.loads(
+                            answer.text).get('error') and 'error_data' in json.loads(answer.text).get('error'):
+                        dict = 'Title  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_title') + '\nMessage  :  ' + json.loads(answer.text).get('error').get(
+                            'error_user_msg') + '\n \n' + json.loads(answer.text).get('error').get('error_data').get(
+                            'details')
+                        raise UserError(_(dict))
+                    if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
+                            answer.text).get('error'):
                         dict = json.loads(answer.text).get('error').get('message')
+                        raise UserError(_(dict))
+                    elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                            answer.text).get('error'):
+                        dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                            answer.text).get('error').get('error_data').get('details')
                         raise UserError(_(dict))
             return answer
         else:
@@ -674,4 +910,3 @@ class Provider(models.Model):
     #     else:
     #         raise UserError(
     #             ("please authenticated your whatsapp."))
-

@@ -44,6 +44,7 @@ class Message(models.Model):
         tracking_values_list = []
         is_tus_discuss_installed = self.env['ir.module.module'].sudo().search([('state', '=', 'installed'), ('name', '=', 'tus_meta_wa_discuss')])
         for values in values_list:
+            
             if values.get('model') and values.get('res_id'):
                 channel_id = self.env[values.get('model')].browse(values.get('res_id'))
             if values.get('model') == 'discuss.channel' and channel_id.whatsapp_channel and is_tus_discuss_installed:
@@ -155,6 +156,7 @@ class Message(models.Model):
                                         'phone': channel_company_line_id.partner_id.mobile,
                                         'attachment_ids': values.get('attachment_ids'),
                                         'model': self._context.get('active_model','discuss.channel'),
+                                        'mail_message_id': messages.id,
                                     }
                                     # if 'user_id' in self.env.context and self.env.context.get('user_id'):
                                     #     vals.update({'provider_id': self.env.context.get('user_id').provider_id.id})
@@ -250,6 +252,7 @@ class Message(models.Model):
                                         'phone': partner.mobile,
                                         'attachment_ids': values.get('attachment_ids'),
                                         'model': self._context.get('active_model','discuss.channel'),
+                                        'mail_message_id': messages.id,
                                     }
                                     # if 'user_id' in self.env.context and  self.env.context.get('user_id'):
                                     #     vals.update({'provider_id':self.env.context.get('user_id').provider_id.id})

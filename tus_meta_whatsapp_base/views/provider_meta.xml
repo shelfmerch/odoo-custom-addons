@@ -17,7 +17,7 @@
             </xpath>
             <xpath expr='//group[@name="provider"]' position='after'>
                 <h2>
-                    <field name="call_back_url" invisible="is_token_generated != True"  readonly="1" force_save="1"/>
+                    <field name="call_back_url" invisible="is_token_generated != True" readonly="1" force_save="1"/>
                     <field name="is_token_generated" invisible="1"/>
                 </h2>
                 <div class="row" style="float:right;" invisible="provider != 'graph_api'">

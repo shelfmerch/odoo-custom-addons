@@ -19,6 +19,36 @@ class IrBinaryInherit(models.AbstractModel):
         record = record.sudo()
         return super()._record_to_stream(record=record, field_name=field_name)
 
+    # def _find_record(
+    #         self, xmlid=None, res_model='ir.attachment', res_id=None,
+    #         access_token=None,
+    # ):
+    #     """
+    #     Find and return a record either using an xmlid either a model+id
+    #     pair. This method is an helper for the ``/web/content`` and
+    #     ``/web/image`` controllers and should not be used in other
+    #     contextes.
+    #
+    #     :param Optional[str] xmlid: xmlid of the record
+    #     :param Optional[str] res_model: model of the record,
+    #         ir.attachment by default.
+    #     :param Optional[id] res_id: id of the record
+    #     :param Optional[str] access_token: access token to use instead
+    #         of the access rights and access rules.
+    #     :returns: single record
+    #     :raises MissingError: when no record was found.
+    #     """
+    #     record = None
+    #     if xmlid:
+    #         record = self.env.ref(xmlid, False)
+    #     elif res_id is not None and res_model in self.env:
+    #         record = self.env[res_model].sudo().browse(res_id).exists()
+    #     if not record:
+    #         raise MissingError(f"No record found for xmlid={xmlid}, res_model={res_model}, id={res_id}")
+    #
+    #     record = self._find_record_check_access(record, access_token)
+    #     return record
+
 class IrHttpInherit(models.AbstractModel):
     _inherit = 'ir.http'
 

@@ -46,6 +46,7 @@ class WhatsappHistory(models.Model):
         'wa_message_id', 'wa_attachment_id',
         string='Attachments', readonly=True)
     message_id = fields.Char("Message ID", readonly=True)
+    mail_message_id = fields.Many2one('mail.message')
     fail_reason = fields.Char("Fail Reason", readonly=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company, readonly=True)
     date = fields.Datetime('Date', default=fields.Datetime.now, readonly=True)
@@ -270,9 +271,19 @@ class WhatsappHistory(models.Model):
 
                                     if bool(template_dict):
                                         params.append(template_dict)
-                                answer = res.provider_id.send_mpm_template(wa_template.name, wa_template.lang.iso_code,
-                                                                           wa_template.namespace, res.partner_id,
-                                                                           params)
+                                try:
+                                    answer = res.provider_id.send_mpm_template(wa_template.name,
+                                                                               wa_template.lang.iso_code,
+                                                                               wa_template.namespace, res.partner_id,
+                                                                               params)
+                                except UserError as e:
+                                    if res:
+                                        res.unlink()
+                                    if vals.get('mail_message_id'):
+                                        mail_message = self.env['mail.message'].browse(vals.get('mail_message_id'))
+                                        mail_message.unlink()
+                                    raise ValidationError(str(e))
+
                                 if answer.status_code == 200:
                                     dict = json.loads(answer.text)
                                     if res.provider_id.provider == 'graph_api':  # if condition for Graph API
@@ -401,6 +412,33 @@ class WhatsappHistory(models.Model):
                                                         )
                                                 parameters.append(parameter_dict)
                                                 template_dict.update({'parameters': parameters})
+
+                                        variables_length = len(component.variables_ids)
+                                        for length, var in zip(range(variables_length), component.variables_ids):
+
+                                            st = '{{%d}}' % (length + 1)
+                                            if var.field_id.model:
+                                                mail_message = self.env['mail.message']
+                                                value = object_data.get(var.field_id.name)
+                                                if vals.get('mail_message_id'):
+                                                    mail_message = mail_message.browse(vals.get('mail_message_id'))
+                                                if mail_message and isinstance(value, tuple):
+                                                    value = value[1]
+                                                    mail_message.write({
+                                                        'body': mail_message.body.replace(st, str(value))
+                                                    })
+                                                    if mail_message.body:
+                                                        res.update({
+                                                            'message': mail_message.body
+                                                        })
+                                                elif mail_message:
+                                                    mail_message.write({
+                                                        'body': mail_message.body.replace(st, str(value))
+                                                    })
+                                                    if mail_message.body:
+                                                        res.update({
+                                                            'message': mail_message.body
+                                                        })
 
                                     if component.type == "header":
                                         if component.formate == "text":
@@ -886,8 +924,16 @@ class WhatsappHistory(models.Model):
                                     if bool(template_dict):
                                         params.append(template_dict)
 
-                            answer = res.provider_id.send_template(wa_template.name, wa_template.lang.iso_code,
-                                                                   wa_template.namespace, res.partner_id, params)
+                            try:
+                                answer = res.provider_id.send_template(wa_template.name, wa_template.lang.iso_code,
+                                                                       wa_template.namespace, res.partner_id, params)
+                            except UserError as e:
+                                if res:
+                                    res.unlink()
+                                if vals.get('mail_message_id'):
+                                    mail_message = self.env['mail.message'].browse(vals.get('mail_message_id'))
+                                    mail_message.unlink()
+                                raise ValidationError(str(e))
                             if answer.status_code == 200:
                                 dict = json.loads(answer.text)
                                 if res.provider_id.provider == 'graph_api':  # if condition for Graph API
@@ -1014,18 +1060,5 @@ class WhatsappHistory(models.Model):
                                                     res.write({'type': 'fail'})
                                                     if 'messages' in imagedict:
                                                         res.write({'fail_reason': imagedict.get('message')})
-
-                            # if operators:
-                            #     for operator in operators:
-                            #         if res.author_id != operator.partner_id:
-                            #             channel = res.partner_id.channel_provider_line_ids.channel_id
-                            #             if channel.whatsapp_channel:
-                            #                 mail_channel_partner = self.env[
-                            #                     'discuss.channel.member'].sudo().search(
-                            #                     [('channel_id', '=', channel.id),
-                            #                      ('partner_id', '=', operator.partner_id.id)])
-                            #                 mail_channel_partner.write({'is_pinned': False})
-                            #                 channel.sudo().write(
-                            #                     {'channel_partner_ids': [(3, operator.partner_id.id)]})
 
             return res

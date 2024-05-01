@@ -68,6 +68,12 @@ class Provider(models.Model):
         res = fn(self, name, language, category, components)
         return res
 
+    def resubmit_template(self, category, template_id, components):
+        t = type(self)
+        fn = getattr(t, f'{self.provider}_resubmit_template', None)
+        res = fn(self, category, template_id, components)
+        return res
+
     def remove_template(self, name):
         t = type(self)
         fn = getattr(t, f'{self.provider}_remove_template', None)
@@ -293,9 +299,14 @@ class Provider(models.Model):
                 raise UserError(
                     ("please check your internet connection."))
             if answer.status_code != 200:
-                if json.loads(answer.text) and 'error' in json.loads(answer.text) and 'message' in json.loads(
+                if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
                         answer.text).get('error'):
                     dict = json.loads(answer.text).get('error').get('message')
+                    raise UserError(_(dict))
+                elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                        answer.text).get('error'):
+                    dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                        answer.text).get('error').get('error_data').get('details')
                     raise UserError(_(dict))
             return answer
         else:
@@ -503,9 +514,14 @@ class Provider(models.Model):
                 raise UserError(
                     ("please check your internet connection."))
             if answer.status_code != 200:
-                if json.loads(answer.text) and 'error' in json.loads(answer.text) and 'message' in json.loads(
+                if 'message' in json.loads(answer.text).get('error') and 'error_data' not in json.loads(
                         answer.text).get('error'):
                     dict = json.loads(answer.text).get('error').get('message')
+                    raise UserError(_(dict))
+                elif 'message' in json.loads(answer.text).get('error') and 'error_data' in json.loads(
+                        answer.text).get('error'):
+                    dict = json.loads(answer.text).get('error').get('message') + '\n \n' + json.loads(
+                        answer.text).get('error').get('error_data').get('details')
                     raise UserError(_(dict))
             return answer
         else:

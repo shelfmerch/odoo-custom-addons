@@ -68,7 +68,7 @@
 
                         <field name="is_second_button_clicked" invisible="1"/>
 
-                        <group invisible="type != 'buttons' or is_button_clicked == True or button_type == 'none' or button_type != 'quick_reply'">
+                        <group invisible="type != 'buttons' or is_button_clicked == True or button_type == 'none' or button_type == 'call_to_action'">
                             <group>
                                 <field name="quick_reply_type_2"/>
                                 <field name="button_text_2" invisible="quick_reply_type_2 != 'custom'"/>
@@ -78,7 +78,7 @@
                                 class="oe_highlight custom_button"
                                 invisible="button_type != 'quick_reply' or is_button_clicked == True or type != 'buttons'"/>
 
-                        <group invisible="type != 'buttons' or is_second_button_clicked == True or button_type == 'none' or button_type != 'quick_reply'">
+                        <group invisible="type != 'buttons' or is_second_button_clicked == True or button_type == 'none' or button_type == 'call_to_action'">
                             <group>
                                 <field name="quick_reply_type_3"/>
                                 <field name="button_text_3" invisible="quick_reply_type_3 != 'custom'"/>

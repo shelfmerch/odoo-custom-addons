@@ -136,11 +136,30 @@ class WAComposer(models.TransientModel):
         self.ensure_one()
         if 'active_model' in self.env.context:
             active_model = str(self.env.context.get('active_model'))
-            active_record = self.env[active_model].browse(self.env.context.get('active_id'))
+            active_id = self.env.context.get('active_id') or self.env.context.get('active_ids')
+            active_record = self.env[active_model].browse(active_id)
             for record in self:
                 if record.template_id:
-                    record.body = record.template_id._render_field('body_html', [active_record.id], compute_lang=True)[
-                        active_record.id]
+                    if record.template_id.components_ids.filtered(lambda comp: comp.type == 'body'):
+                        variables_ids = record.template_id.components_ids.variables_ids
+                        if variables_ids:
+                            temp_body = tools.html2plaintext(record.template_id.body_html)
+                            variables_length = len(record.template_id.components_ids.variables_ids)
+                            for length, variable in zip(range(variables_length), variables_ids):
+                                st = '{{%d}}' % (length + 1)
+                                if variable.field_id.model == active_model:
+                                    value = active_record.read()[0][variable.field_id.name]
+                                    if isinstance(value, tuple):
+                                        value = value[1]
+                                        temp_body = temp_body.replace(st, str(value))
+                                    else:
+                                        temp_body = temp_body.replace(st, str(value))
+                            record.body = tools.plaintext2html(temp_body)
+                        else:
+                            record.body = \
+                                record.template_id._render_field('body_html', [active_record.id], compute_lang=True)[
+                                    active_record.id]
+
                 else:
                     record.body = ''
         else:
@@ -234,6 +253,7 @@ class WAComposer(models.TransientModel):
                      'active_model': active_model,
                      'attachment_ids': self.attachment_ids.ids, 'provider_id': provider_id}).create(
                     wa_message_values)
+                channel._message_post_after_hook(wa_attach_message, wa_message_values)
                 channel._notify_thread(wa_attach_message, wa_message_values)
                 # comment due to thread single message and message replace issue.
                 # notifications = [(channel, 'discuss.channel/new_message',
@@ -267,7 +287,7 @@ class WAComposer(models.TransientModel):
                 #                   {'id': channel.id, 'message': message_values})]
                 # self.env['bus.bus']._sendmany(notifications)
             else:
-                if tools.html2plaintext(self.body) != '':
+                if self.body and tools.html2plaintext(self.body) != '':
                     message_values = {
                         'body': tools.html2plaintext(self.body),
                         'author_id': user_partner.id,
@@ -293,6 +313,7 @@ class WAComposer(models.TransientModel):
                             {'provider_id': self.provider_id}).create(
                             message_values)
                     if wa_message_body:
+                        channel._message_post_after_hook(wa_message_body, message_values)
                         channel._notify_thread(wa_message_body, message_values)
                     # comment due to thread single message and message replace issue.
                     # notifications = [(channel, 'discuss.channel/new_message',

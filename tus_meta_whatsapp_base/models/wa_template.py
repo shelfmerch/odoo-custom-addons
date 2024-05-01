@@ -77,7 +77,7 @@ class WATemplate(models.Model):
     # language = fields.Char("Language", default="en")
     lang = fields.Many2one("res.lang", "Language",required=True)
     components_ids = fields.One2many('components', 'wa_template_id', 'Components')
-    graph_message_template_id = fields.Char(string="WhatsApp Graph Message Template ID")
+    graph_message_template_id = fields.Char(string="Template UID")
     show_graph_message_template_id = fields.Boolean(compute='_compute_show_graph_message_template_id')
     template_status = fields.Char(string="Template Status", readonly=True)
     template_type = fields.Selection([('template', 'Template'),
@@ -168,7 +168,8 @@ class WATemplate(models.Model):
 
             elif component.type == 'buttons':
                 if component.button_type == 'call_to_action':
-                    if (component.type_of_action == 'PHONE_NUMBER' or component.type_of_action == 'URL') and component.is_button_clicked:
+                    if (
+                            component.type_of_action == 'PHONE_NUMBER' or component.type_of_action == 'URL') and component.is_button_clicked:
                         if component.type_of_action == 'PHONE_NUMBER':
                             dict.update({"type": component.type.upper(),
                                          "buttons": [
@@ -190,16 +191,21 @@ class WATemplate(models.Model):
                                 components.append(dict)
 
                             else:
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
                                 dict.update({"type": component.type.upper(),
                                              "buttons": [
                                                  {'type': component.type_of_action, 'text': component.button_text,
-                                                  'url': component.dynamic_website_url
+                                                  'url': component.dynamic_website_url,
+                                                  "example": button_text,
                                                   }
                                              ]
                                              })
                                 components.append(dict)
 
-                    elif (component.type_of_action == 'PHONE_NUMBER' or component.type_of_action == 'URL') and not component.is_button_clicked:
+                    elif (
+                            component.type_of_action == 'PHONE_NUMBER' or component.type_of_action == 'URL') and not component.is_button_clicked:
                         if component.type_of_action == 'PHONE_NUMBER' and component.type_of_action_2 == 'PHONE_NUMBER':
                             dict.update({"type": component.type.upper(),
                                          "buttons": [
@@ -226,13 +232,17 @@ class WATemplate(models.Model):
                                              })
                                 components.append(dict)
                             else:
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
                                 dict.update({"type": component.type.upper(),
                                              "buttons": [
                                                  {'type': component.type_of_action, 'text': component.button_text,
                                                   'phone_number': component.phone_number
                                                   },
                                                  {'type': component.type_of_action_2, 'text': component.button_text_2,
-                                                  'url': component.dynamic_website_url_2
+                                                  'url': component.dynamic_website_url_2,
+                                                  "example": button_text,
                                                   }
                                              ]
                                              })
@@ -242,7 +252,7 @@ class WATemplate(models.Model):
                                 dict.update({"type": component.type.upper(),
                                              "buttons": [
                                                  {'type': component.type_of_action, 'text': component.button_text,
-                                                  'phone_number': component.static_website_url
+                                                  'url': component.static_website_url
                                                   },
                                                  {'type': component.type_of_action_2, 'text': component.button_text_2,
                                                   'url': component.static_website_url_2
@@ -251,37 +261,51 @@ class WATemplate(models.Model):
                                              })
                                 components.append(dict)
                             elif component.url_type == 'static' and component.url_type_2 == 'dynamic':
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
                                 dict.update({"type": component.type.upper(),
                                              "buttons": [
                                                  {'type': component.type_of_action, 'text': component.button_text,
-                                                  'phone_number': component.static_website_url
+                                                  'url': component.static_website_url
                                                   },
                                                  {'type': component.type_of_action_2, 'text': component.button_text_2,
-                                                  'url': component.dynamic_website_url_2
+                                                  'url': component.dynamic_website_url_2,
+                                                  "example": button_text,
                                                   }
                                              ]
                                              })
                                 components.append(dict)
                             elif component.url_type == 'dynamic' and component.url_type_2 == 'dynamic':
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
                                 dict.update({"type": component.type.upper(),
                                              "buttons": [
                                                  {'type': component.type_of_action, 'text': component.button_text,
-                                                  'phone_number': component.dynamic_website_url
+                                                  'url': component.dynamic_website_url,
+                                                  "example": button_text,
                                                   },
                                                  {'type': component.type_of_action_2, 'text': component.button_text_2,
-                                                  'url': component.dynamic_website_url_2
+                                                  'url': component.dynamic_website_url_2,
+                                                  "example": button_text,
                                                   }
                                              ]
                                              })
                                 components.append(dict)
                             else:
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
                                 dict.update({"type": component.type.upper(),
                                              "buttons": [
                                                  {'type': component.type_of_action, 'text': component.button_text,
-                                                  'phone_number': component.dynamic_website_url
+                                                  'url': component.dynamic_website_url,
+                                                  "example": button_text,
                                                   },
                                                  {'type': component.type_of_action_2, 'text': component.button_text_2,
-                                                  'url': component.static_website_url_2
+                                                  'url': component.static_website_url_2,
+                                                  "example": button_text,
                                                   }
                                              ]
                                              })
@@ -301,13 +325,18 @@ class WATemplate(models.Model):
                                              })
                                 components.append(dict)
                             else:
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
                                 dict.update({"type": component.type.upper(),
                                              "buttons": [
                                                  {'type': component.type_of_action, 'text': component.button_text,
-                                                  'url': component.dynamic_website_url
+                                                  'url': component.dynamic_website_url,
+                                                  "example": button_text,
                                                   },
                                                  {'type': component.type_of_action_2, 'text': component.button_text_2,
-                                                  'phone_number': component.phone_number_2
+                                                  'phone_number': component.phone_number_2,
+                                                  "example": button_text,
                                                   }
                                              ]
                                              })
@@ -401,14 +430,330 @@ class WATemplate(models.Model):
                 if self.provider_id.provider == 'graph_api':
                     if 'message' in dict:
                         raise UserError(
-                         (dict.get('message')))
+                            (dict.get('message')))
                     if 'error' in dict:
                         raise UserError(
-                         (dict.get('error').get('message')))
+                            (dict.get('error').get('message')))
                     else:
                         if 'id' in dict:
-                             self.state = 'added'
-                             self.graph_message_template_id = dict.get('id')
+                            self.state = 'added'
+                            self.graph_message_template_id = dict.get('id')
+        else:
+            raise UserError(
+                ("please add components!"))
+
+    def resubmit_whatsapp_template(self):
+        components = []
+        for component in self.components_ids:
+            dict = {}
+            if component.type == 'header':
+                if component.formate == 'media':
+                    IrConfigParam = self.env['ir.config_parameter'].sudo()
+                    base_url = IrConfigParam.get_param('web.base.url', False)
+                    attachment = False
+
+                    if component.media_type == 'document':
+                        attachment = self.env['ir.attachment'].sudo().search([('name', '=', 'demo-wa-pdf')])
+
+                    if component.media_type == 'video':
+                        attachment = self.env['ir.attachment'].sudo().search([('name', '=', 'demo-wa-video')])
+
+                    if component.media_type == 'image':
+                        attachment = self.env['ir.attachment'].sudo().search([('name', '=', 'demo-wa-image')])
+
+                    if attachment:
+                        answer = self.provider_id.graph_api_upload_demo_document(attachment)
+                        if answer.status_code == 200:
+                            data = json.loads(answer.text)
+                            file_handle = data.get('h')
+                            dict.update({"example": {
+                                "header_handle": [file_handle]
+                            }, 'type': component.type.upper(), 'format': component.media_type.upper(), })
+                        components.append(dict)
+
+                else:
+                    header_text = []
+                    for variable in component.variables_ids:
+                        header_text.append('Test')
+                    if header_text:
+                        dict.update({"example": {
+                            "header_text": header_text}})
+                    if component.text:
+                        dict.update({'text': component.text, 'type': component.type.upper(),
+                                     'format': component.formate.upper()})
+                        components.append(dict)
+
+            elif component.type == 'buttons':
+                if component.button_type == 'call_to_action':
+                    if (
+                            component.type_of_action == 'PHONE_NUMBER' or component.type_of_action == 'URL') and component.is_button_clicked:
+                        if component.type_of_action == 'PHONE_NUMBER':
+                            dict.update({"type": component.type.upper(),
+                                         "buttons": [
+                                             {'type': component.type_of_action, 'text': component.button_text,
+                                              'phone_number': component.phone_number
+                                              }
+                                         ]
+                                         })
+                            components.append(dict)
+                        else:
+                            if component.url_type == 'static':
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'url': component.static_website_url
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+
+                            else:
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'url': component.dynamic_website_url,
+                                                  "example": button_text,
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+
+                    elif (
+                            component.type_of_action == 'PHONE_NUMBER' or component.type_of_action == 'URL') and not component.is_button_clicked:
+                        if component.type_of_action == 'PHONE_NUMBER' and component.type_of_action_2 == 'PHONE_NUMBER':
+                            dict.update({"type": component.type.upper(),
+                                         "buttons": [
+                                             {'type': component.type_of_action, 'text': component.button_text,
+                                              'phone_number': component.phone_number
+                                              },
+                                             {'type': component.type_of_action_2, 'text': component.button_text_2,
+                                              'phone_number': component.phone_number_2
+                                              }
+                                         ]
+                                         })
+                            components.append(dict)
+                        elif component.type_of_action == 'PHONE_NUMBER' and component.type_of_action_2 == 'URL':
+                            if component.url_type_2 == 'static':
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'phone_number': component.phone_number
+                                                  },
+                                                 {'type': component.type_of_action_2, 'text': component.button_text_2,
+                                                  'url': component.static_website_url_2
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+                            else:
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'phone_number': component.phone_number
+                                                  },
+                                                 {'type': component.type_of_action_2, 'text': component.button_text_2,
+                                                  'url': component.dynamic_website_url_2,
+                                                  "example": button_text,
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+                        elif component.type_of_action == 'URL' and component.type_of_action_2 == 'URL':
+                            if component.url_type == 'static' and component.url_type_2 == 'static':
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'url': component.static_website_url
+                                                  },
+                                                 {'type': component.type_of_action_2, 'text': component.button_text_2,
+                                                  'url': component.static_website_url_2
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+                            elif component.url_type == 'static' and component.url_type_2 == 'dynamic':
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'url': component.static_website_url
+                                                  },
+                                                 {'type': component.type_of_action_2, 'text': component.button_text_2,
+                                                  'url': component.dynamic_website_url_2,
+                                                  "example": button_text,
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+                            elif component.url_type == 'dynamic' and component.url_type_2 == 'dynamic':
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'url': component.dynamic_website_url,
+                                                  "example": button_text,
+                                                  },
+                                                 {'type': component.type_of_action_2, 'text': component.button_text_2,
+                                                  'url': component.dynamic_website_url_2,
+                                                  "example": button_text,
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+                            else:
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'url': component.dynamic_website_url,
+                                                  "example": button_text,
+                                                  },
+                                                 {'type': component.type_of_action_2, 'text': component.button_text_2,
+                                                  'url': component.static_website_url_2,
+                                                  "example": button_text,
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+
+                        else:
+                            if component.url_type == 'static':
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'url': component.static_website_url
+                                                  },
+                                                 {'type': component.type_of_action_2, 'text': component.button_text_2,
+                                                  'phone_number': component.phone_number_2
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+                            else:
+                                button_text = []
+                                for variable in component.variables_ids:
+                                    button_text.append('Test')
+                                dict.update({"type": component.type.upper(),
+                                             "buttons": [
+                                                 {'type': component.type_of_action, 'text': component.button_text,
+                                                  'url': component.dynamic_website_url,
+                                                  "example": button_text,
+                                                  },
+                                                 {'type': component.type_of_action_2, 'text': component.button_text_2,
+                                                  'phone_number': component.phone_number_2,
+                                                  "example": button_text,
+                                                  }
+                                             ]
+                                             })
+                                components.append(dict)
+
+                elif component.button_type == 'quick_reply':
+                    if component.quick_reply_type == 'custom' and component.is_button_clicked == True and component.is_second_button_clicked == True:
+                        if component.quick_reply_type == 'custom':
+                            dict.update({"type": component.type.upper(),
+                                         "buttons": [
+                                             {'type': component.button_type.upper(), 'text': component.button_text,
+                                              },
+                                         ]
+                                         })
+                            components.append(dict)
+
+                    elif component.quick_reply_type == 'custom' and component.is_button_clicked == False and component.is_second_button_clicked == True:
+                        if component.quick_reply_type_2 == 'custom':
+                            dict.update({"type": component.type.upper(),
+                                         "buttons": [
+                                             {'type': component.button_type.upper(), 'text': component.button_text,
+                                              },
+                                             {'type': component.button_type.upper(),
+                                              'text': component.button_text_2,
+                                              }
+                                         ]
+                                         })
+                            components.append(dict)
+
+                    elif component.quick_reply_type == 'custom' and component.is_button_clicked == True and component.is_second_button_clicked == False:
+                        if component.quick_reply_type_3 == 'custom':
+                            dict.update({"type": component.type.upper(),
+                                         "buttons": [
+                                             {'type': component.button_type.upper(), 'text': component.button_text,
+                                              },
+                                             {'type': component.button_type.upper(),
+                                              'text': component.button_text_3,
+                                              }
+                                         ]
+                                         })
+                            components.append(dict)
+                    else:
+                        if component.quick_reply_type == 'custom':
+                            if component.quick_reply_type_2 == 'custom':
+                                if component.quick_reply_type_3 == 'custom':
+                                    dict.update({"type": component.type.upper(),
+                                                 "buttons": [
+                                                     {'type': component.button_type.upper(),
+                                                      'text': component.button_text,
+                                                      },
+                                                     {'type': component.button_type.upper(),
+                                                      'text': component.button_text_2,
+                                                      },
+                                                     {'type': component.button_type.upper(),
+                                                      'text': component.button_text_3,
+                                                      }
+                                                 ]
+                                                 })
+                                    components.append(dict)
+
+            else:
+                body_text = []
+                for variable in component.variables_ids:
+                    body_text.append('Test')
+                if body_text:
+                    dict.update({"example": {
+                        "body_text": [body_text
+                                      ]}})
+                if component.text:
+                    dict.update({'text': component.text, 'type': component.type.upper(), })
+                    components.append(dict)
+
+        if components:
+            answer = self.provider_id.resubmit_template(self.category.upper(), self.graph_message_template_id, components)
+            if answer.status_code == 200:
+                dict = json.loads(answer.text)
+
+                if self.provider_id.provider == 'chat_api':
+                    if 'message' in dict:
+                        raise UserError(
+                            (dict.get('message')))
+                    if 'error' in dict:
+                        raise UserError(
+                            (dict.get('error').get('message')))
+                    else:
+                        if 'status' in dict and dict.get('status') == 'submitted':
+                            self.state = 'added'
+                            self.namespace = dict.get('namespace')
+
+                if self.provider_id.provider == 'graph_api':
+                    if 'message' in dict:
+                        raise UserError(
+                            (dict.get('message')))
+                    if 'error' in dict:
+                        raise UserError(
+                            (dict.get('error').get('message')))
+                    else:
+                        if 'id' in dict:
+                            self.state = 'added'
+                            self.graph_message_template_id = dict.get('id')
         else:
             raise UserError(
                 ("please add components!"))
@@ -485,14 +830,26 @@ class WATemplate(models.Model):
                 response = requests.get(base_url, headers=headers)
                 if response.status_code == 200:
                     response_data = response.json()
-                    if response_data['data'] and response_data['data'][0]:
-                        status = response_data['data'][0]['status']
-                        res = self.write({
-                            'template_status': status
+                    if response_data['data']:
+                        for data in response_data['data']:
+                            if self.name == data['name']:
+                                status = data['status']
+                                self.write({
+                                    'template_status': status,
+                                    'graph_message_template_id': data['id'],
+                                })
+                            else:
+                                self.write({
+                                    'template_status': False
+                                })
+                    else:
+                        self.write({
+                            'template_status': False
                         })
 
-            except requests.exceptions.RequestException as e:
-                return None
+            except requests.exceptions.ConnectionError:
+                raise UserError(
+                    ("please check your internet connection."))
         else:
             raise UserError(
                 ("please authenticated your whatsapp."))
@@ -509,7 +866,6 @@ class WATemplate(models.Model):
             wizard_rec.onchange_template_id_wrapper()
             return wizard_rec.send_whatsapp_message()
 
-
     def get_all_templates_status(self):
         templates = self.sudo().search([])
         for rec in templates:
@@ -518,11 +874,31 @@ class WATemplate(models.Model):
                 headers = {
                     "Authorization": rec.provider_id.graph_api_token
                 }
-                response = requests.get(base_url, headers=headers)
-                if response.status_code == 200:
-                    response_data = response.json()
-                    if response_data['data'] and response_data['data'][0]:
-                        status = response_data['data'][0]['status']
-                        rec.write({
-                            'template_status': status
-                        })
+                try:
+                    response = requests.get(base_url, headers=headers)
+                    if response.status_code == 200:
+                        response_data = response.json()
+                        if response_data['data']:
+                            for data in response_data['data']:
+                                if rec.name == data['name']:
+                                    status = data['status']
+                                    rec.write({
+                                        'template_status': status,
+                                        'graph_message_template_id': data['id'],
+                                    })
+                                else:
+                                    rec.write({
+                                        'template_status': False
+                                    })
+                        else:
+                            rec.write({
+                                'template_status': False
+                            })
+
+                except requests.exceptions.ConnectionError:
+                    raise UserError(
+                        ("please check your internet connection."))
+
+            else:
+                raise UserError(
+                    ("please authenticated your whatsapp."))
