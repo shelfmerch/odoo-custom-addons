@@ -1,0 +1,334 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Odoo Manual looker dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500&family=Poppins:wght@600&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+   <div style="font-weight:500; font-size:15px; margin:0 auto; border:1px solid #0074ff; display:flex; background-color:#0074ff; border-radius:50px; width:400px">
+    <div class="text-center" style="color:#091E42; font-family:Montserrat; padding:0; min-width:100%; height:40px; vertical-align:middle">
+                        <span class="" style="padding:7px 15px 0 20px; color:#fff; float:left; font-weight:600; font-size:12px; line-height:25px">
+                        <img alt="Chat on WhatsApp" src="./Digital_Inline_Green.png" style="height:30px;" />
+<a />
+                        </span>
+                    <span class="mt-2 d-flex"></span>
+                    <span class="position-relative" style="vertical-align:middle; background-color:#fff; color:#000; border-radius:50px; padding:4px 20px; font-weight:600">+91 62309 27667</span>
+                </div>
+    </div>
+  <div style="margin-top: 100px;">
+    <div style="width: 100%; height: 100%; background-color: #F3F7F7; padding: 30px 20px; border-radius: 20px;" class="d-flex shadow flex-column">
+      <div class="text-center" style="font-family: 'Poppins', sans-serif;">
+        <div style="display: inline-block; text-align: end; margin-left: auto; margin-right: auto; padding-bottom: 10px;">
+        <h1 class="text-center" style="font-size: 48px; font-weight:bold; margin-bottom: 0 !important; color: #202225;">
+          TechFinna <span style="font-size: 54px; color: #4285F4;"> Looker</span> Sales Dashboard
+        </h1>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h1 class="text-center" style="font-size: 48px; font-weight:bold ; color: #0B5394;">
+        Pre-requisites
+      </h1>
+      <h3 class="text-center" style="font-weight:200; margin-top: 25px; color: #020a4b;">This is a readymade & customisable Google looker Studio dashboard. To run this dashboard on your Odoo data, get Odoo Looker Connector here</h3>
+    <div class="d-flex justify-content-center">
+      <a href="https://apps.odoo.com/apps/modules/17.0/looker_connector/"><h3 class="" style="font-weight:200; color: #4285F4;"><b>Odoo Looker Connector</b><span style="font-size: 15px;">(Link)</span></h3></a>
+    </div>
+    </div>
+
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h1 class="text-center" style="font-size: 48px; font-weight:bold ; color: #0B5394;">
+        Odoo Tables Used
+      </h1>
+<div class="d-flex flex-wrap gap-3">
+    <div class="border mx-3 p-2 px-3" style="margin-top: 25px; border-radius: 5px; margin-left: auto; margin-right: 0;">
+      <h3 class="mb-0 " style="font-weight:200; color: #020a4b;"><b>Sale&nbsp;order&nbsp;line</b></h3>
+    </div>
+    <div class="border mx-3 p-2 px-3" style="margin-top: 25px;  border-radius: 5px; margin-left: auto; margin-right: 0;">
+      <h3 class="mb-0" style="font-weight:200; color: #020a4b;"><b>Product&nbsp;Product</b></h3>
+    </div>
+    <div class="border mx-3 p-2 px-3" style="margin-top: 25px; border-radius: 5px; margin-left: auto; margin-right: 0;">
+      <h3 class="mb-0" style="font-weight:200; color: #020a4b;"><b>Res&nbsp;Users</b></h3>
+    </div>
+    <div class="border mx-3 p-2 px-3" style="margin-top: 25px; border-radius: 5px; margin-left: auto; margin-right: 0;">
+      <h3 class="mb-0" style="font-weight:200; color: #020a4b;"><b>Res&nbsp;Partners</b></h3>
+    </div>
+    <div class="border mx-3 p-2 px-3" style="margin-top: 25px; border-radius: 5px; margin-left: auto; margin-right: 0;">
+      <h3 class="mb-0" style="font-weight:200; color: #020a4b;"><b>Sale&nbsp;Order</b></h3>
+    </div>
+    <div class="border mx-3 p-2 px-3" style="margin-top: 25px; border-radius: 5px; margin-left: auto; margin-right: 0;">
+      <h3 class="mb-0" style="font-weight:200; color: #020a4b;"><b>Product&nbsp;Template</b></h3>
+    </div>
+  </div>
+    </div>
+
+    <div class="d-flex w-100 mt-5 align-items-center ">
+      <img class="img-fluid w-100 mx-auto"
+      src="./dashboard.png" alt="looker dashboard">
+    </div>
+
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h1 class="text-center" style="font-size: 48px; font-weight:bold ; color: #0B5394;">
+        KPI’s Explain- 
+      </h1>
+
+      <div class="d-flex w-100 mt-3 align-items-center ">
+        <img class="img-fluid w-100 mx-auto"
+        src="./kpi.png" alt="looker dashboard">
+      </div>
+
+    <div style="margin-top: 15px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Revenue-</b>  Total sales is a key performance indicator (KPI) used by sales departments to track the total amount of revenue generated from sales over a given period. It's also referred to as total revenue and is a good measure of business health.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Average Order-</b> Average order is a metric that measures the average total of every order placed with a merchant over a defined period of time. It is calculated by dividing the total revenue by the number of orders placed.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Orders-</b>  The Total Orders metric represents the total number of purchases made by customers on a platform, providing insights into the volume of sales and customer conversions.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Quotations-</b>  Quotation KPI shows how many orders are in draft and sent status in your sale orders.</h3>
+    </div>
+    <div class="d-flex w-100 mt-3 mb-3 align-items-center ">
+      <img class="img-fluid w-100 mx-auto"
+      src="./customers by revenue.png" alt="looker dashboard">
+    </div>
+    <div style=" margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Top Customers by Revenue- </b>  This donut chart KPI shows your top customers according to their revenue. Here you can find out your key customers.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Top Selling Products By Quantity- </b> This Pie chart KPI shows your top-ordered products from your customers, it helps you to manage inventory according to your customer's interest. </h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Top Sales Orders-</b>  This KPI shows your top sale order number sorted by your revenue in descending order.       </h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Top Quotations-  </b> This KPI shows your top Quotations that are in draft and sent status and sorted by your revenue in descending order.   </h3>
+    </div>
+    </div>
+
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h1 class="text-center" style="font-size: 48px; font-weight:bold ; color: #0B5394;">
+        Filter & Slicers-
+      </h1>
+
+      <div class="d-flex w-100 mt-3 mb-3 align-items-center ">
+        <img class="img-fluid w-100 mx-auto"
+        src="./slicers.png" alt="looker dashboard">
+      </div>
+
+    <div style=" margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Date Range-</b> This provides an interactive way to narrow down the data displayed in visualizations to a particular timeframe, making it easier to focus on specific periods of interest.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Customers-</b> By using this slicer you can find out your key customers who brought the highest products and their interested fields. This helps you manage your inventory for the future according to your customer's interest.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Salesperson-</b> Salesperson slicer KPIs are quantifiable benchmarks that measure a sales team's performance. They can provide insights into sales performance, such as how many deals were closed, how many opportunities were had, and sales velocity.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Products-</b> A product slicer is a user interface feature that allows you to filter and manipulate data displayed on a dashboard according to products. You can find which products sold the most and generate the highest revenue.</h3>
+    </div>
+    </div>
+
+    <div class="mx-auto mt-5 pt-5">
+      <h1 class="text-center" style="font-size: 48px; font-weight:bold; margin-bottom: 0 !important; color: #202225;">
+        Installation & Setup Guide
+      </h1>
+      </div>
+
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h2 class="text-center" style="font-size: 48px; font-weight:bold ; color: #0B5394;">
+        Requirements:
+      </h2>
+
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Must have Techfinna Odoo-looker connector.</h3>
+    </div>
+    </div>
+
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h1 class="text-center" style="font-size: 48px; font-weight:bold ; color: #0B5394;">
+        Set-up:
+      </h1>
+
+      <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+        <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Open the dashboard by provided link</h3>
+      </div>
+
+      <div class="d-flex w-100 mt-3 mb-3 align-items-center ">
+        <img class="img-fluid w-100 mx-auto"
+        src="./letsgetstarted.png" alt="looker dashboard">
+      </div>
+
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Now on Resources tab here you will find managed data sources.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Here you can see all tables and data sources.</h3>
+    </div>
+
+    <div class="d-flex w-100 mt-3 mb-3 align-items-center ">
+      <img class="img-fluid w-100 mx-auto"
+      src="./datasourcees.png" alt="looker dashboard">
+    </div>
+
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Go to the edit button in the Actions tab then tab on edit connection, here you will find the Techfinna-Odoo looker connector.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Here, enter your URL and token from Odoo Looker connector, which is inside your Odoo settings.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Now tab on reconnect, here you can find your odoo data for this table.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Do these steps for all tables, and then you will find dashboard according to your odoo data.</h3>
+    </div>
+    </div>
+
+    <div class="d-flex w-100 mt-3 mb-3 align-items-center ">
+      <img class="img-fluid w-100 mx-auto"
+      src="./baseurlodoo.png" alt="looker dashboard">
+    </div>
+
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h1 class="" style="font-size: 48px; font-weight:bold ; color: #0B5394;">
+        Data Refresh-
+      </h1>
+      <h2 class="" style="font-size: 30px; font-weight:bold ; color: #0B5394;">
+        Schedule Refresh-
+      </h2>
+
+    <div style="margin-top: 15px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Set data freshness for a data source</b></h3>
+    </div>
+    <div style="margin-top: 10px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;"><b>Looker Studio automatically refreshes all the cached data for each data source used by your report at certain intervals. To change the default data refresh rate:</b></h3>
+    </div>
+    <div style="margin-top: 35px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">1. Edit the data source. You can do this from within a report or from the Data Sources home page.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">2. At the top, click Data freshness.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">3. Under Check for fresh data, select a new refresh option, if available.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">4. Click Set Data Freshness.</h3>
+    </div>
+
+    <div class="d-flex w-100 mt-3 mb-3 align-items-center ">
+      <img class="img-fluid w-100 mx-auto"
+      src="./datafreshness.png" alt="looker dashboard">
+    </div>
+
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h2 class="px-3 ml-0" style="font-size: 30px; font-weight:bold ; color: #0B5394;">
+        Manual Refresh-
+      </h2>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 If you want you data up to date ,we will find data refresh at the top right corner.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Tab on data refresh you will find your data updated every time.</h3>
+    </div>
+    </div>
+
+    <div class="d-flex w-100 mt-3 mb-3 align-items-center ">
+      <img class="img-fluid w-100 mx-auto"
+      src="./refreshdata.png" alt="looker dashboard">
+    </div>
+
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h1 class="px-3" style="font-size: 48px; font-weight:bold ; color: #0B5394;">
+        Share and Embed Report:
+      </h1>
+
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Click the Share or Invite people button in the top right corner.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Enter the email addresses of the users you want to share the report with.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Select a viewer or editor role.</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Send the invitation to view or edit.</h3>
+    </div>
+
+    <div class="d-flex w-100 mt-3 mb-3 align-items-center ">
+      <img class="img-fluid w-100 mx-auto"
+      src="./viewinvite.png" alt="looker dashboard">
+    </div>
+    
+    <div style="width: 100%; font-family: 'Poppins', sans-serif; margin-top: 80px;">
+      <h2 class="px-3" style="font-size: 40px; font-weight:bold ;">
+        You can also share a Looker Studio report by:
+      </h2>
+
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Sharing it with your organization</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Sharing it through its URL</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Making it public</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 Embedding your reports on a website</h3>
+    </div>
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 You can add report access settings by clicking these three options below.</h3>
+    </div>
+
+    <div class="d-flex w-100 mt-3 mb-3 align-items-center ">
+      <img class="img-fluid w-100 mx-auto"
+      src="./reportaccesssettings.png" alt="looker dashboard">
+    </div>
+
+    <div style="margin-top: 25px; margin-left: auto; margin-right: 0;">
+      <h3 class="" style="font-weight:200; color: #020a4b;">🔹 You can also schedule email delivery for your report. You can choose to receive the email weekly, monthly, every weekday, or custom.</h3>
+    </div>
+    </div>
+
+    <div class="shadow row d-flex align-items-center"
+    style="margin-top: 80px; text-align: center; background-color: #5453FD; padding: 30px 20px; border-radius: 20px;">
+    <div class="col-12 col-md-8">
+    <h1 style="font-size: 42px; font-weight:bold ; color: white;">Want custom Looker Reports?</h1>
+          <p style="font-size: 20px; color: #CCCCFE;">Get yourself custom looker reports with desired functionalities and features. Contact <a style="font-style: italic; margin: 0;" href="mailto:info@techfinna.com">info@techfinna.com</a></p>
+          <p style="font-size: 20px; color: #CCCCFE;">Transform looker dashboard with ease - choose Techfinna</p>
+      </div>
+    <div class="col-12 col-md-4 align-items-center d-flex justify-content-center">
+      <img class="fluid h-100" style="margin-right: -10%" src="https://assets.templately.com/frontend/Subscription.svg" frameborder="0"></img>
+    </div>
+  </div>
+
+  <div class="shadow-xl row d-flex align-items-center"
+  style="margin-top: 80px; text-align:left; border: 2px solid #5453FD; padding: 30px 20px; border-radius: 20px;">
+  <div class="col-12 col-md-7">
+  <h1 style="font-size: 42px; font-weight:bold ; color: 1D2B53;">Unleashing the Power of Data Relations in Odoo</h1>
+        <p style="font-size: 20px; color: #7E2553;">➢ &nbsp;Intuitive Graphical Chart View </p>
+        <p style="font-size: 20px; color: #7E2553;">➢ &nbsp;Table Relationships</p>
+        <p style="font-size: 20px; color: #7E2553;">➢ &nbsp;Execute Custom SQL Queries</p>
+        <p style="font-size: 20px; color: #7E2553;">➢ &nbsp;Extract Excel Sheet</p>
+        <p style="font-size: 20px; font-weight: bold; color: #7E2553;">Checkout Odoo data model <a target="_blank" style="font-style: italic; margin: 0;" href="https://apps.odoo.com/apps/modules/17.0/odoodatamodel/">Click here</a></p>
+    </div>
+  <div class="col-12 col-md-5 align-items-center p-0 d-flex justify-content-center">
+    <img class="fluid w-100" src="/datamodel.gif" frameborder="0"></img>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>
